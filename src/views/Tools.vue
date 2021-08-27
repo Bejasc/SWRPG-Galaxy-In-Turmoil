@@ -7,61 +7,36 @@
 				</v-layout>
 			</v-parallax>
 
-			<v-card>
-				<v-container>
-					<h1>New Item</h1>
-					<v-card>
-						<Form :form="loadTemplate()" submission="" options="" style=""></Form>
-					</v-card>
-				</v-container>
-			</v-card>
+			<v-container fill-height fluid>
+				<v-row align="center" justify="center">
+					<v-col cols="5">
+						<v-card>
+							<h1>New Item</h1>
+							<v-card>
+								<Form :form="loadTemplate()" submission="ItemInterface" options="" style="" v-on:submit="saveForm()"></Form>
+							</v-card>
+						</v-card>
+					</v-col>
+				</v-row>
+			</v-container>
 		</section>
 	</v-main>
 </template>
 
 <style>
-textarea {
-	width: 400px;
-}
-input {
-	border: none;
-	color: var(--s-500);
-	height: 100%;
-	min-width: 0px;
-	font-family: roboto, "Font Awesome 5 Pro";
-	font-size: 14px;
-	text-overflow: ellipsis;
-	flex-grow: 1;
-	flex-shrink: 1;
-	margin: 0px 10px;
-	box-sizing: border-box;
-	-webkit-writing-mode: horizontal-tb !important;
-	text-rendering: auto;
-	color: -internal-light-dark(black, white);
-	letter-spacing: normal;
-	word-spacing: normal;
-	text-transform: none;
-	text-indent: 0px;
-	text-shadow: none;
-	display: inline-block;
-	text-align: start;
-	appearance: auto;
-	background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
-	-webkit-rtl-ordering: logical;
-	cursor: text;
-	margin: 0em;
-	font: 400 13.3333px Arial;
-	padding: 1px 2px;
-	border-width: 2px;
-	border-style: inset;
-	border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
-	border-image: initial;
+.fileSelector {
+	position: relative;
+	padding: 15px;
+	border: 2px dashed #ddd;
+	text-align: center;
+	height: 200px;
 }
 </style>
 
 <script>
 import { Form } from "vue-formio";
 import formConfig from "@/types/itemForm.json";
+import { ItemInterface } from "@/types/Item";
 
 export default {
 	name: "Tools",
@@ -78,6 +53,10 @@ export default {
 		loadTemplate() {
 			console.log("abc");
 			return formConfig;
+		},
+		saveForm() {
+			console.log("Save form!");
+			console.log(this.form.data);
 		},
 	},
 };

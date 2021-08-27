@@ -8,14 +8,6 @@
 	},
 	"components": [
 		{
-			"type": "button",
-			"label": "Submit",
-			"key": "submit",
-			"disableOnInvalid": true,
-			"input": true,
-			"tableView": false
-		},
-		{
 			"label": "Item Name",
 			"placeholder": "Bantha Fodder",
 			"tooltip": "What is the main name your item will be shown/displayed as?",
@@ -54,6 +46,14 @@
 			"key": "itemImage",
 			"type": "file",
 			"input": true
+		},
+		{
+			"type": "button",
+			"label": "Save Item",
+			"key": "submit",
+			"disableOnInvalid": true,
+			"input": true,
+			"tableView": false
 		}
 	]
 }
