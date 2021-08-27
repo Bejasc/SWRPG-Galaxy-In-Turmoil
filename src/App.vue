@@ -14,6 +14,7 @@
           <v-row justify="space-around">
             <v-list-item :to="{ name: 'Home' }">Home</v-list-item>
             <v-list-item :to="{ name: 'Docs' }">Docs</v-list-item>
+            <v-list-item :to="{ name: 'Tools' }">Tools</v-list-item>
             <v-list-item @click="navigate('https://discord.gg/MU4XUVS')"
               >Join</v-list-item
             >
