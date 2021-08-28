@@ -17,20 +17,21 @@
 	"dependencies": {
 		"@jsonforms/core": "^2.5.2",
 		"@jsonforms/vue2": "^2.5.2",
+		"bootstrap-sass": "^3.4.1",
+		"bootswatch": "^3.4.1",
 		"core-js": "^3.6.5",
+		"font-awesome": "^4.7.0",
 		"git-branch-is": "^4.0.0",
+		"material-design-icons": "^3.0.1",
 		"register-service-worker": "^1.7.1",
 		"vue": "^2.6.11",
 		"vue-class-component": "^7.2.3",
+		"vue-code-highlight": "^0.7.8",
 		"vue-formio": "^4.0.7",
 		"vue-property-decorator": "^8.4.2",
 		"vue-router": "^3.2.0",
 		"vue-scrollto": "^2.18.2",
-		"vuetify": "^2.2.11",
-		"bootstrap-sass": "^3.4.1",
-		"bootswatch": "^3.4.1",
-		"font-awesome": "^4.7.0",
-		"material-design-icons": "^3.0.1"
+		"vuetify": "^2.2.11"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^2.33.0",

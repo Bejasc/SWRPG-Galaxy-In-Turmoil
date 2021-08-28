@@ -12,9 +12,40 @@
 					<v-col cols="5">
 						<v-card>
 							<h1>New Item</h1>
-							<v-card>
-								<Form :form="loadTemplate()" submission="ItemInterface" options="" style="" v-on:submit="saveForm()"></Form>
-							</v-card>
+							<v-form class="pa-6 ma-2">
+								<v-text-field v-model="item.name" label="Item Name" placeholder="Bantha Fodder"></v-text-field>
+								<v-textarea v-model="item.description" label="Item Description"></v-textarea>
+								<v-text-field v-model="item.image" label="Image URL" placeholder="Enter the URL for your image"></v-text-field>
+								<v-img :src="item.image"></v-img>
+
+								<v-dialog v-model="dialog" width="500">
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn color="success" dark v-bind="attrs" v-on="on" v-on:click="saveItem()">
+											Save Item
+										</v-btn>
+									</template>
+
+									<v-card>
+										<v-card-title class="text-h5 ">
+											{{ item.name }}
+										</v-card-title>
+
+										<vue-code-highlight language="json">
+											<pre>{{ itemJson }}</pre>
+										</vue-code-highlight>
+
+										<v-card-actions>
+											<v-btn color="red" text @click="dialog = false">
+												Close
+											</v-btn>
+											<v-btn color="blue" text @click="copyToClipboard">
+												Copy to Clipboard
+											</v-btn>
+										</v-card-actions>
+										<v-snackbar v-model="snackbar" :timeout="timeout"> {{ item.name }} was copied to clipboard </v-snackbar>
+									</v-card>
+								</v-dialog>
+							</v-form>
 						</v-card>
 					</v-col>
 				</v-row>
@@ -24,39 +55,43 @@
 </template>
 
 <style>
-.fileSelector {
-	position: relative;
-	padding: 15px;
-	border: 2px dashed #ddd;
-	text-align: center;
-	height: 200px;
+.v-application code {
+	background-color: unset;
 }
 </style>
 
 <script>
-import { Form } from "vue-formio";
-import formConfig from "@/types/itemForm.json";
-import { ItemInterface } from "@/types/Item";
-
+import { Item } from "@/types/Item";
+import { component as VueCodeHighlight } from "vue-code-highlight";
 export default {
 	name: "Tools",
-	components: { Form },
+	components: {
+		VueCodeHighlight,
+	},
 	data: () => {
 		return {
-			form: {},
+			item: new Item(),
+			dialog: false,
+			itemJson: "",
+			timeout: 4000,
+			snackbar: false,
 		};
 	},
-	mounted() {
-		console.log(this.fCon);
-	},
 	methods: {
-		loadTemplate() {
-			console.log("abc");
-			return formConfig;
+		saveItem() {
+			const itemAsJson = JSON.stringify(this.item, null, "\t");
+			this.itemJson = itemAsJson;
+			console.log(itemAsJson);
 		},
-		saveForm() {
-			console.log("Save form!");
-			console.log(this.form.data);
+		copyToClipboard() {
+			this.snackbar = true;
+			navigator.clipboard.writeText(this.itemJson);
+		},
+	},
+	filters: {
+		pretty: function(value) {
+			if (!value) return;
+			return JSON.stringify(JSON.parse(value), null, 2);
 		},
 	},
 };
