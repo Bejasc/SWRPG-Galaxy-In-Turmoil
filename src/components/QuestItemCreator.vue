@@ -66,9 +66,9 @@
 <script>
 import { Item } from "@/types/Item";
 import { component as VueCodeHighlight } from "vue-code-highlight";
-import DiscordEmbed from "./DiscordEmbed.vue";
-import DiscordEmbedFields from "./DiscordEmbedFields.vue";
-import DiscordEmbedField from "./DiscordEmbedField.vue";
+import DiscordEmbed from "./Discord/DiscordEmbed.vue";
+import DiscordEmbedFields from "./Discord/DiscordEmbedFields.vue";
+import DiscordEmbedField from "./Discord/DiscordEmbedField.vue";
 export default {
 	name: "QuestItemCreator",
 	components: {

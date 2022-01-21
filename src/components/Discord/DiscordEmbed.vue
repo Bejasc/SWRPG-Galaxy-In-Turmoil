@@ -99,7 +99,7 @@ export default {
 <style>
 @font-face {
 	font-family: "Whitney";
-	src: local("Whitney"), url("../assets/fonts/whitneymedium.otf") format("opentype");
+	src: local("Whitney"), url("../../assets/fonts/whitneymedium.otf") format("opentype");
 }
 
 .discord-embed {

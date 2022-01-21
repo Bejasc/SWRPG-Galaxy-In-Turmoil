@@ -8,7 +8,7 @@
 						A discord based RPG powered by bots, created by Bejasc
 					</div>
 					<v-btn class="mt-12" color="primary" dark large href="https://discord.gg/MU4XUVS">Join the fight</v-btn>
-					<v-btn class="mt-6" outlined large :to="{ name: 'Docs' }">View docs</v-btn>
+					<v-btn class="mt-6" outlined large :to="{ name: 'Tools' }">View Tools</v-btn>
 				</v-layout>
 			</v-parallax>
 		</section>
