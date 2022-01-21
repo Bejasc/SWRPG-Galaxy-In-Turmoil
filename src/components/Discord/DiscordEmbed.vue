@@ -1,5 +1,5 @@
 <template>
-	<div class="discord-embed">
+	<div class="discord-embed" v-if="title">
 		<div :style="{ 'background-color': color }" class="discord-left-border"></div>
 		<div class="discord-embed-container">
 			<div class="discord-embed-content">
@@ -22,9 +22,7 @@
 							{{ title }}
 						</span>
 					</div>
-					<div v-else class="discord-embed-title">
-						Item Name
-					</div>
+					<div v-else class="discord-embed-title"></div>
 
 					<div class="discord-embed-description">
 						<slot></slot>
@@ -127,7 +125,7 @@ export default {
 	background-color: #2f3136;
 	display: flex;
 	flex-direction: column;
-	max-width: 520px;
+	max-width: 400px;
 	padding: 8px 16px 16px;
 	border: 1px solid rgba(46, 48, 54, 0.6);
 	border-radius: 0 4px 4px 0;

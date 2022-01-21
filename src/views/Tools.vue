@@ -1,10 +1,9 @@
 <template>
 	<v-main>
-		<v-row fill-height>
-			<v-col cols="2" class="ma-0 pa-0">
-				<ToolSidebar />
-			</v-col>
-		</v-row>
+		<ToolSidebar />
+		<v-col cols="10" offset="2">
+			<router-view />
+		</v-col>
 	</v-main>
 </template>
 

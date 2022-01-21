@@ -28,6 +28,12 @@ const routes: Array<RouteConfig> = [
 			{
 				path: "hook",
 				name: "Hook Builder",
+				component: () => import("@/views/Tools/HookBuilder.vue"),
+			},
+			{
+				path: "item",
+				name: "Quest Item Builder",
+				component: () => import("@/views/Tools/QuestItemCreator.vue"),
 			},
 		],
 	},
