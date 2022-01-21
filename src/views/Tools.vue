@@ -1,6 +1,7 @@
 <template>
 	<v-main>
 		<ToolSidebar />
+
 		<v-col cols="10" offset="2">
 			<router-view />
 		</v-col>
