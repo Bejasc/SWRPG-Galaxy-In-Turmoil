@@ -8,6 +8,7 @@
 						<v-text-field v-model="item.name" label="Item Name" placeholder="Item Name"></v-text-field>
 						<v-textarea v-model="item.description" label="Item Description" placeholder="Item Description"></v-textarea>
 						<v-text-field v-model="item.image" label="Image URL" placeholder="Image URL"></v-text-field>
+						<v-text-field v-model="item.encumbrance" label="Item Encumbrance" type="number" step="0.1" :min="minEncumbrance" :max="maxEncumbrance"></v-text-field>
 
 						<v-row justify="space-around">
 							<discord-embed color="#0099ff" :title="item.name" :thumbnail="item.image">
@@ -19,9 +20,9 @@
 								</span>
 								<discord-embed-fields slot="fields">
 									<discord-embed-field title="Encumbrance">{{ item.encumbrance }}</discord-embed-field>
-									<discord-embed-field title="Type" inline>{{ item.encumbrance }}</discord-embed-field>
+									<!-- <discord-embed-field title="Type" inline>{{ item.encumbrance }}</discord-embed-field>
 									<discord-embed-field title="Tradeable" inline>{{ item.encumbrance }}</discord-embed-field>
-									<discord-embed-field title="Base Value" inline>450 Credits</discord-embed-field>
+									<discord-embed-field title="Base Value" inline>450 Credits</discord-embed-field> -->
 								</discord-embed-fields>
 								<span slot="footer">This is an *example* of how the item embed will look</span>
 							</discord-embed>
@@ -33,7 +34,7 @@
 									<v-btn color="success" dark v-bind="attrs" v-on="on" v-on:click="saveItem()">
 										Get Item Code
 									</v-btn>
-									<v-btn color="primary" dark v-bind="attrs" v-on="on" v-on:click="saveItem()">
+									<v-btn color="primary" dark v-on:click="clearForm()">
 										Clear Form
 									</v-btn>
 								</v-row>
@@ -82,7 +83,10 @@ export default {
 			dialog: false,
 			itemJson: "",
 			timeout: 4000,
+			minEncumbrance: 0,
+			maxEncumbrance: 40,
 			snackbar: false,
+			encumbranceValidator: [v => v < 0 || "Value cannot be less than 0"],
 		};
 	},
 	methods: {
@@ -94,6 +98,9 @@ export default {
 		copyToClipboard() {
 			this.snackbar = true;
 			navigator.clipboard.writeText(this.itemJson);
+		},
+		clearForm() {
+			this.item = new Item();
 		},
 	},
 	filters: {
