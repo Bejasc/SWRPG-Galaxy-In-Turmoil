@@ -12,20 +12,12 @@
 			<v-list>
 				<v-subheader>Menu</v-subheader>
 
-				<v-list-item link @click="$router.push({ path: '/' })">
-					<v-list-item-icon> <v-icon>mdi-home</v-icon> </v-list-item-icon>
-					<v-list-item-title>Home </v-list-item-title>
-				</v-list-item>
-
-				<v-list-item link @click="$router.push({ path: 'tools' })">
-					<v-list-item-icon> <v-icon>mdi-hammer</v-icon> </v-list-item-icon><v-list-item-title>Tools </v-list-item-title>
-				</v-list-item>
-
-				<v-list-item link @click="navigate('https://discord.gg/MU4XUVS')">
+				<v-list-item v-for="item in items" :key="item.text" link active-class="big" @click="item.click()">
 					<v-list-item-icon>
-						<v-icon>mdi-discord</v-icon>
+						<v-icon>{{ item.icon }}</v-icon>
 					</v-list-item-icon>
-					<v-list-item-title>Join </v-list-item-title>
+
+					<v-list-item-title>{{ item.text }}</v-list-item-title>
 				</v-list-item>
 			</v-list>
 		</v-menu>
@@ -40,6 +32,7 @@
 </style>
 
 <script lang="ts">
+import router from "@/router";
 export default {
 	name: "TopBar",
 	methods: {
@@ -50,9 +43,27 @@ export default {
 	data() {
 		return {
 			items: [
-				{ text: "Quest Item Creator", icon: "mdi-map-marker-question", click: "" },
-				{ text: "NPC Creator", icon: "mdi-account", click: "" },
-				{ text: "Hook Builder", icon: "mdi-hook", click: "" },
+				{
+					text: "Home",
+					icon: "mdi-home",
+					click: function() {
+						router.push({ name: "Home" });
+					},
+				},
+				{
+					text: "Tools",
+					icon: "mdi-hammer",
+					click: function() {
+						router.push({ name: "Tools" });
+					},
+				},
+				{
+					text: "Join",
+					icon: "mdi-discord",
+					click: function() {
+						window.open("https://discord.gg/MU4XUVS", "_blank");
+					},
+				},
 			],
 		};
 	},
