@@ -20,6 +20,16 @@ const routes: Array<RouteConfig> = [
 		path: "/tools",
 		name: "Tools",
 		component: () => import("@/views/Tools.vue"),
+		children: [
+			{
+				path: "npc",
+				name: "NPC Creator",
+			},
+			{
+				path: "hook",
+				name: "Hook Builder",
+			},
+		],
 	},
 ];
 

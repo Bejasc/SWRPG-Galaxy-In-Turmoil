@@ -7,7 +7,7 @@
 					<v-list-item-title>GM Tools</v-list-item-title>
 				</template>
 
-				<v-list-item v-for="item in items" class="ml-15" :key="item.text" link active-class="big">
+				<v-list-item v-for="item in items" class="ml-15" :key="item.text" link active-class="big" @click="item.click()">
 					<!-- <v-list-item-icon>
 						<v-icon>{{ item.icon }}</v-icon>
 					</v-list-item-icon> -->
@@ -20,13 +20,26 @@
 </template>
 
 <script>
+import router from "@/router";
 export default {
 	data() {
 		return {
 			items: [
 				// { text: "Quest Item Creator", icon: "mdi-map-marker-question" },
-				{ text: "NPC Creator", icon: "mdi-account" },
-				{ text: "Hook Builder", icon: "mdi-hook" },
+				{
+					text: "NPC Creator",
+					icon: "mdi-account",
+					click: function() {
+						router.push({ path: "/tools/npc" });
+					},
+				},
+				{
+					text: "Hook Builder",
+					icon: "mdi-hook",
+					click: function() {
+						router.push({ path: "/tools/hook" });
+					},
+				},
 			],
 		};
 	},
