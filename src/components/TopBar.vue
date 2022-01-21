@@ -43,7 +43,7 @@ export default {
 	},
 	computed: {
 		currentRouteName() {
-			return this.$route.name;
+			return router.currentRoute.name;
 		},
 	},
 	data() {
