@@ -1,17 +1,13 @@
-export interface ItemInterface {
+export class Item {
 	name: string;
 	image: string;
 	description: string;
-}
-
-export class Item implements ItemInterface {
-	name: string;
-	image: string;
-	description: string;
+	encumbrance: number;
 
 	constructor() {
 		this.name = "";
 		this.image = "";
 		this.description = "";
+		this.encumbrance = 0;
 	}
 }

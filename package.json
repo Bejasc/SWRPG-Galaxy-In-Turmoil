@@ -27,6 +27,7 @@
 		"vue": "^2.6.11",
 		"vue-class-component": "^7.2.3",
 		"vue-code-highlight": "^0.7.8",
+		"vue-discord-message": "^5.0.3",
 		"vue-formio": "^4.0.7",
 		"vue-property-decorator": "^8.4.2",
 		"vue-router": "^3.2.0",
@@ -46,15 +47,15 @@
 		"eslint": "^6.7.2",
 		"eslint-plugin-prettier": "^3.1.3",
 		"eslint-plugin-vue": "^6.2.2",
+		"execa": "latest",
+		"husky": "^4.2.5",
+		"node-sass": "^4.9.0",
 		"prettier": "^1.19.1",
 		"sass": "^1.19.0",
 		"sass-loader": "^8.0.0",
 		"typescript": "~3.9.3",
 		"vue-cli-plugin-vuetify": "^2.0.7",
 		"vue-template-compiler": "^2.6.11",
-		"vuetify-loader": "^1.3.0",
-		"husky": "^4.2.5",
-		"execa": "latest",
-		"node-sass": "^4.9.0"
+		"vuetify-loader": "^1.3.0"
 	}
 }
