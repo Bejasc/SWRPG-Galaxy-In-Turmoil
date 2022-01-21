@@ -1,6 +1,6 @@
 <template>
 	<v-app-bar app permanent color="background">
-		<v-toolbar-title>SWRPG - {{ currentRouteName }}</v-toolbar-title>
+		<v-toolbar-title>SWRPG - {{ $route.name }}</v-toolbar-title>
 		<v-spacer />
 		<!-- <v-btn outlined>View docs</v-btn> -->
 		<v-menu left bottom>
@@ -39,11 +39,6 @@ export default {
 	methods: {
 		navigate: function(target: string) {
 			window.open(target, "_blank");
-		},
-	},
-	computed: {
-		currentRouteName() {
-			return router.currentRoute.name;
 		},
 	},
 	data() {
