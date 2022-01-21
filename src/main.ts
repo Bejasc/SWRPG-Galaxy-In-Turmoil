@@ -14,12 +14,12 @@ new Vue({
 	render: h => h(App),
 }).$mount("#app");
 
-document.title = "SWRPG: Galaxy in Turmoil";
+document.title = "SWRPG - Galaxy in Turmoil";
 
 router.afterEach((to, from) => {
 	// Use next tick to handle router history correctly
 	// see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
 	Vue.nextTick(() => {
-		document.title = `SWRPG: ${to.name}`;
+		document.title = `SWRPG - ${to.name}`;
 	});
 });
