@@ -65,6 +65,7 @@ export default {
 			dialog: false,
 			hookCommand: "",
 			snackbar: false,
+			timeout: 4000,
 		};
 	},
 	methods: {

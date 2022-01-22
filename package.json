@@ -17,6 +17,7 @@
 	"dependencies": {
 		"@jsonforms/core": "^2.5.2",
 		"@jsonforms/vue2": "^2.5.2",
+		"axios": "^0.25.0",
 		"bootstrap-sass": "^3.4.1",
 		"bootswatch": "^3.4.1",
 		"core-js": "^3.6.5",
@@ -35,6 +36,7 @@
 		"vuetify": "^2.2.11"
 	},
 	"devDependencies": {
+		"@types/axios": "^0.14.0",
 		"@typescript-eslint/eslint-plugin": "^2.33.0",
 		"@typescript-eslint/parser": "^2.33.0",
 		"@vue/cli-plugin-babel": "^4.5.0",

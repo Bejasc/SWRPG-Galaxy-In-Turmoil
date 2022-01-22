@@ -23,7 +23,8 @@ const routes: Array<RouteConfig> = [
 		children: [
 			{
 				path: "npc",
-				name: "NPC Creator",
+				name: "NPC Directory",
+				component: () => import("@/views/Tools/NpcDirectory.vue"),
 			},
 			{
 				path: "hook",

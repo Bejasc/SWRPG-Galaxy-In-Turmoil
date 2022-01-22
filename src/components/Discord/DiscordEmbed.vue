@@ -88,9 +88,6 @@ export default {
 			return this.$slots.footer && this.timestamp;
 		},
 	},
-	mounted() {
-		console.log("Hello");
-	},
 };
 </script>
 

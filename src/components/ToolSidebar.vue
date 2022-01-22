@@ -66,13 +66,13 @@ export default {
 				// 		router.push({ path: "/tools/item" });
 				// 	},
 				// },
-				// {
-				// 	text: "NPC Creator",
-				// 	icon: "mdi-account",
-				// 	click: function() {
-				// 		router.push({ path: "/tools/npc" });
-				// 	},
-				// },
+				{
+					text: "NPC Directory",
+					icon: "mdi-account",
+					click: function() {
+						router.push({ path: "/tools/npc" });
+					},
+				},
 			],
 			gmResources: [
 				// { text: "Quest Item Creator", icon: "mdi-map-marker-question" },
