@@ -4,29 +4,35 @@
 			<v-toolbar-title>Search</v-toolbar-title>
 			<v-text-field class="mx-4" v-model="search" clearable rounded flat hide-details label="Search for an NPC by ther name or affiliation" solo-inverted></v-text-field>
 		</v-toolbar>
-		<v-row dense>
-			<v-col v-for="npc in filteredNpcs" :key="npc.name" cols="2">
+		<v-row>
+			<v-col v-for="npc in filteredNpcs" :key="npc.name" cols="3">
 				<v-card>
-					<v-img :src="npc.avatar" class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" @click="npc.getRandomName()">
-						<v-card-title v-text="npc.name"></v-card-title>
+					<v-img :src="npc.avatar" class="white--text" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" @click="npc.getRandomName()">
+						<div v-if="npc.verified" class="float-left pa-3">
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon color="#91FFFF" v-bind="attrs" v-on="on">mdi-check-decagram</v-icon>
+								</template>
+								<span>Thie NPC exists in the SWRPG Database, and can be used with the '^!npc' command</span>
+							</v-tooltip>
+						</div>
+
+						<v-icon class="float-right pa-3">mdi-dots-vertical</v-icon>
 					</v-img>
 
 					<v-card-actions>
-						<v-chip :color="npc.faction.color">
-							<v-icon left>
-								mdi-account-group
-							</v-icon>
-							{{ npc.faction.name }}
-						</v-chip>
+						<span class="subtitle-1">
+							{{ npc.name }}
+						</span>
 
 						<v-spacer />
 
-						<v-btn icon>
-							<v-icon>mdi-chat-alert</v-icon>
+						<v-btn v-if="npc.isCombatant" icon>
+							<v-icon>mdi-sword-cross</v-icon>
 						</v-btn>
 
 						<v-btn icon>
-							<v-icon>mdi-sword-cross</v-icon>
+							<v-icon>mdi-chat-alert</v-icon>
 						</v-btn>
 					</v-card-actions>
 				</v-card>
@@ -36,10 +42,9 @@
 </template>
 
 <script lang="ts">
-import { NPC_LIST, Npc } from "@/types/Npcs/Npc";
-// import { component as VueCodeHighlight } from "vue-code-highlight";
-// import DiscordEmbed from "../../components/Discord/DiscordEmbed.vue";
-export default {
+import { NPC_LIST, Npc, INpc } from "@/types/Npcs/Npc";
+import Vue from "vue";
+export default Vue.extend({
 	name: "HookBuilder",
 	components: {
 		// VueCodeHighlight,
@@ -48,18 +53,15 @@ export default {
 	data: () => {
 		return {
 			search: "",
-			dialog: false,
-			hookCommand: "",
-			snackbar: false,
 			npcs: [...NPC_LIST.map(e => new Npc(e))],
 		};
 	},
 	computed: {
-		filteredNpcs() {
-			return this.npcs.filter(npc => {
+		filteredNpcs(): INpc[] {
+			return this.npcs.filter((npc: Npc) => {
 				return npc.tags.some(t => t.toLowerCase().includes(this.search.toLowerCase()));
 			});
 		},
 	},
-};
+});
 </script>

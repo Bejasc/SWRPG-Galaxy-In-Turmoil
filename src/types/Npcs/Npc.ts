@@ -4,6 +4,7 @@ import { INpcCombatProperties } from "./Combat";
 import { ALL_FACTIONS, IFaction, NpcAffiliation } from "./Faction";
 
 export interface INpc {
+	_id?: string;
 	name: string;
 	aliases?: string[];
 	metaTags?: string[];
@@ -29,6 +30,7 @@ export class Npc implements INpc {
 
 	tags: string[] = [];
 	faction: IFaction;
+	swrpgId: string | undefined;
 
 	constructor(npc: INpc) {
 		this.name = npc.name ?? "Unknown";
@@ -39,6 +41,7 @@ export class Npc implements INpc {
 
 		this.aliases = npc.aliases ?? [];
 		this.metaTags = npc.metaTags ?? [];
+		this.swrpgId = npc._id;
 
 		this.faction = ALL_FACTIONS.find(x => x.name.toLowerCase() == this.affiliation.toLowerCase()) ?? ALL_FACTIONS[0];
 		this.tags.push(...this.faction.aliases, ...this.aliases, ...[this.name], ...this.metaTags);
@@ -48,6 +51,10 @@ export class Npc implements INpc {
 		const name = await generateRandomName(this.namePreset);
 		console.log(name);
 		return name;
+	}
+
+	get verified(): boolean {
+		return this.swrpgId !== undefined;
 	}
 
 	get isCombatant(): boolean {
@@ -93,5 +100,25 @@ export const NPC_LIST: INpc[] = [
 		avatar: "https://cdn.discordapp.com/attachments/743332978893258763/934278050567311380/unknown.png",
 		namePreset: StarWarsNametype.Twilek,
 		affiliation: "Neutral",
+	},
+	{
+		_id: "61611661facb0e9ab8cdd799",
+		name: "Imperial Probe Droid",
+		aliases: ["imperial probe", "imperial probe droid", "probe droid", "imp probe"],
+		affiliation: "Empire",
+		avatar: "https://cdn.discordapp.com/attachments/743332978893258763/896244483996393522/Imperial_Probe_Droid.png",
+		metaTags: ["Hoth", "snow"],
+		combatProperties: {
+			hitpoints: 25,
+			armorClass: 2,
+			weaponType: "Melee",
+			damageType: "Energy",
+			weaponSkill: 1,
+			hits: 2,
+			damage: {
+				min: 2,
+				max: 5,
+			},
+		},
 	},
 ];
