@@ -14,13 +14,21 @@
 			"prepush": "if git-branch-is master; then npm run deploy; fi"
 		}
 	},
+	"browserslist": [
+		"last 1 Edge version",
+		"last 1 Chrome version",
+		"last 1 Firefox version"
+	],
 	"dependencies": {
+		"@azure/storage-blob": "^12.8.0",
 		"@jsonforms/core": "^2.5.2",
 		"@jsonforms/vue2": "^2.5.2",
+		"@types/dotenv": "^8.2.0",
 		"axios": "^0.25.0",
 		"bootstrap-sass": "^3.4.1",
 		"bootswatch": "^3.4.1",
 		"core-js": "^3.6.5",
+		"dotenv": "^14.2.0",
 		"font-awesome": "^4.7.0",
 		"git-branch-is": "^4.0.0",
 		"material-design-icons": "^3.0.1",

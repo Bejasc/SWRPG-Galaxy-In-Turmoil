@@ -73,6 +73,13 @@ export default {
 						router.push({ path: "/tools/npc" });
 					},
 				},
+				{
+					text: "Image Library",
+					icon: "mdi-image",
+					click: function() {
+						router.push({ path: "/tools/images" });
+					},
+				},
 			],
 			gmResources: [
 				// { text: "Quest Item Creator", icon: "mdi-map-marker-question" },

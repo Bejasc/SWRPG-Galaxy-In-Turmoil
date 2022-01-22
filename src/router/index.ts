@@ -36,6 +36,11 @@ const routes: Array<RouteConfig> = [
 				name: "Quest Item Builder",
 				component: () => import("@/views/Tools/QuestItemCreator.vue"),
 			},
+			{
+				path: "images",
+				name: "Image Library",
+				component: () => import("@/views/Tools/ImageLibrary.vue"),
+			},
 		],
 	},
 ];
