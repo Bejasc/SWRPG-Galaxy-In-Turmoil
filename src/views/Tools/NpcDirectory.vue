@@ -28,11 +28,12 @@
 						<v-spacer />
 
 						<v-btn v-if="npc.isCombatant" icon>
-							<v-icon>mdi-sword-cross</v-icon>
-						</v-btn>
-
-						<v-btn icon>
-							<v-icon>mdi-chat-alert</v-icon>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-icon v-bind="attrs" v-on="on">mdi-sword-cross</v-icon>
+								</template>
+								<span>This NPC is preconfigured for combat.</span>
+							</v-tooltip>
 						</v-btn>
 					</v-card-actions>
 				</v-card>
