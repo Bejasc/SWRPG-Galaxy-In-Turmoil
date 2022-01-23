@@ -1,5 +1,22 @@
 <template>
 	<v-container fluid>
+		<v-toolbar dark>
+			<v-toolbar-title>Search</v-toolbar-title>
+			<v-text-field class="mx-4" v-model="search" clearable rounded flat hide-details label="Search by Tags" solo-inverted></v-text-field>
+		</v-toolbar>
+		<v-row>
+			<v-col v-for="img in blobs" :key="img" class="d-flex child-flex" cols="2">
+				<v-img :src="img" :lazy-src="img">
+					<template v-slot:placeholder>
+						<v-row class="fill-height ma-0" align="center" justify="center">
+							<v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+						</v-row>
+					</template>
+				</v-img>
+			</v-col>
+		</v-row>
+	</v-container>
+	<!-- <v-container fluid>
 		<v-row>
 			<v-col cols="3">
 				<v-card>
@@ -29,24 +46,44 @@
 				</v-card>
 			</v-col>
 		</v-row>
-	</v-container>
+	</v-container> -->
 </template>
 
 <script>
 import Vue from "vue";
-import { BlobClient, BlobServiceClient } from "@azure/storage-blob";
+import { getAzureContainer } from "@/plugins/AzureConnector";
 export default Vue.extend({
 	name: "HookBuilder",
 	components: {},
 	data: () => {
 		return {
+			search: "",
 			url: null,
 			file: null,
 			tags: null,
 			rules: [value => !value || value.size < 4000000 || "File size should be less than 4 MB!"],
+			blobs: [],
 		};
 	},
+	mounted() {
+		this.loadBlobs();
+	},
 	methods: {
+		async loadBlobs() {
+			const containerCllient = await getAzureContainer();
+
+			const iter = containerCllient.listBlobsFlat();
+			let blobItem = await iter.next();
+
+			const t = [];
+			while (!blobItem.done) {
+				const blobClient = containerCllient.getBlobClient(blobItem.value.name);
+				t.push(blobClient.url);
+				blobItem = await iter.next();
+			}
+
+			this.blobs = t;
+		},
 		onFileChange(e) {
 			if (e != undefined) {
 				this.url = URL.createObjectURL(e);
@@ -56,16 +93,8 @@ export default Vue.extend({
 				this.file = null;
 			}
 		},
-
 		async uploadFile() {
-			const azureStore =
-				"https://drpg.blob.core.windows.net/?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2022-01-22T22:26:27Z&st=2022-01-22T14:26:27Z&spr=https&sig=oLeIJqfCvBk2JzWrcgdcCivZk%2BVFe1EkqkJuFFc%2Bfgo%3D";
-
-			const blobServiceClient = new BlobServiceClient(azureStore);
-			const containerName = "swrpg-images";
-			const containerClient = blobServiceClient.getContainerClient(containerName);
-
-			await containerClient.createIfNotExists();
+			const containerClient = await getAzureContainer();
 
 			//TODO split tags on comma, and treat as separate tag
 			const splitTags = this.tags;

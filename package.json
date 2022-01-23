@@ -14,11 +14,6 @@
 			"prepush": "if git-branch-is master; then npm run deploy; fi"
 		}
 	},
-	"browserslist": [
-		"last 1 Edge version",
-		"last 1 Chrome version",
-		"last 1 Firefox version"
-	],
 	"dependencies": {
 		"@azure/storage-blob": "^12.8.0",
 		"@jsonforms/core": "^2.5.2",
