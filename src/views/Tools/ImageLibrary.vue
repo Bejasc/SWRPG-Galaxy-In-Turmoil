@@ -25,8 +25,38 @@
 									</template>
 
 									<v-list>
-										<v-list-item @click="dialog = true"><v-list-item-title>Modify Tags</v-list-item-title></v-list-item>
+										<v-list-item
+											@click.stop="
+												selectedBlob = img;
+												dialog = true;
+											"
+											><v-list-item-title>Modify Tags</v-list-item-title></v-list-item
+										>
 									</v-list>
+
+									<v-dialog v-model="dialog" max-width="290">
+										<v-card>
+											<v-card-title class="text-h5">
+												{{ img.name }}
+											</v-card-title>
+
+											<v-col cols="12">
+												<v-text-field v-model="img.tags" label="Tags"></v-text-field>
+											</v-col>
+
+											<v-card-actions>
+												<v-spacer></v-spacer>
+
+												<v-btn color="red darken-1" text @click="dialog = false">
+													Cancel
+												</v-btn>
+
+												<v-btn color="green darken-1" text @click="updateTags(img)">
+													Save
+												</v-btn>
+											</v-card-actions>
+										</v-card>
+									</v-dialog>
 								</v-menu>
 							</div>
 							<!-- <div v-if="hover" class="background-color:red">
@@ -44,7 +74,7 @@
 									<template v-slot:activator="{ on, attrs }">
 										<v-icon v-bind="attrs" color="#91FFFF" v-on="on">mdi-tag</v-icon>
 									</template>
-									<span>{{ img.tags != null ? img.tags.join(", ") : "No Tags" }}</span>
+									<span>{{ img.tags != null ? img.tags : "No Tags" }}</span>
 								</v-tooltip>
 							</v-btn>
 						</v-img>
@@ -101,7 +131,7 @@ export default Vue.extend({
 			tags: "",
 			rules: [(value: { size: number }) => !value || value.size < 4000000 || "File size should be less than 4 MB!"],
 			blobs: [] as IAzureImage[],
-			selectedBlob: Object as () => IAzureImage,
+			selectedBlob: null,
 			dialog: true,
 		};
 	},
@@ -114,6 +144,10 @@ export default Vue.extend({
 		this.loadBlobs();
 	},
 	methods: {
+		async updateTags(img: IAzureImage) {
+			this.blobs = this.blobs.map(x => (x.name != img.name ? x : img));
+			this.dialog = false;
+		},
 		async deleteBlob(img: IAzureImage) {
 			this.blobs = this.blobs.filter(x => x != img);
 
