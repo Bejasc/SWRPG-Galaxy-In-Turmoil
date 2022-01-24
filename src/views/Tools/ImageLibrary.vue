@@ -3,22 +3,50 @@
 		<v-toolbar dark>
 			<v-toolbar-title>Search</v-toolbar-title>
 			<v-text-field class="mx-4" v-model="search" clearable rounded flat hide-details label="Search by Tags" solo-inverted></v-text-field>
+			<v-btn v-if="isAdminMode()" class="ma-5" @click="bulkDeleteBlobs()">
+				<v-icon color="red">mdi-delete</v-icon>
+				Delete {{ selectedCount }}
+			</v-btn>
 		</v-toolbar>
+
 		<v-row>
 			<v-col v-for="img in blobs" :key="img.t" cols="2">
 				<v-hover v-slot="{ hover }">
-					<v-card :elevation="hover ? 12 : 2">
-						<v-img :src="img.url" :lazy-src="img.rul" height="200px" contain class="{'on-hover':hover}">
-							<template v-if="hover">
-								<div v-if="isAdminMode()" class="float-left pa-3">
-									<v-icon color="#ff0000">mdi-delete</v-icon>
-								</div>
-							</template>
+					<v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+						<v-img :src="img.url" :lazy-src="img.url" height="225px" contain>
+							<v-checkbox class="float-left pa-3" v-if="isAdminMode()" v-model="img.isChecked"></v-checkbox>
+
+							<div class="float-right pa-3">
+								<v-menu bottom left>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn dark icon v-bind="attrs" v-on="on">
+											<v-icon>mdi-dots-vertical</v-icon>
+										</v-btn>
+									</template>
+
+									<v-list>
+										<v-list-item @click="dialog = true"><v-list-item-title>Modify Tags</v-list-item-title></v-list-item>
+									</v-list>
+								</v-menu>
+							</div>
+							<!-- <div v-if="hover" class="background-color:red">
+								<v-btn v-if="isAdminMode()" icon class="float-left pa-3" @click="deleteBlob(img)">
+									<v-icon color="red">mdi-delete</v-icon>
+								</v-btn>
+							</div> -->
 							<template v-slot:placeholder>
 								<v-row class="fill-height ma-0" align="center" justify="center">
 									<v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
 								</v-row>
 							</template>
+							<v-btn v-if="img.tags" icon class="pa-3" style="opacity:0.6">
+								<v-tooltip bottom>
+									<template v-slot:activator="{ on, attrs }">
+										<v-icon v-bind="attrs" color="#91FFFF" v-on="on">mdi-tag</v-icon>
+									</template>
+									<span>{{ img.tags != null ? img.tags.join(", ") : "No Tags" }}</span>
+								</v-tooltip>
+							</v-btn>
 						</v-img>
 					</v-card>
 				</v-hover>
@@ -60,7 +88,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getAzureContainer } from "@/plugins/AzureConnector";
+import { deleteBlobByName, getAzureContainer } from "@/plugins/AzureConnector";
 import { IAzureImage } from "@/types/AzureImage";
 export default Vue.extend({
 	name: "HookBuilder",
@@ -73,13 +101,37 @@ export default Vue.extend({
 			tags: "",
 			rules: [(value: { size: number }) => !value || value.size < 4000000 || "File size should be less than 4 MB!"],
 			blobs: [] as IAzureImage[],
+			selectedBlob: Object as () => IAzureImage,
+			dialog: true,
 		};
 	},
-
+	computed: {
+		selectedCount() {
+			return this.blobs.filter(x => x.isChecked == true).length;
+		},
+	},
 	mounted() {
 		this.loadBlobs();
 	},
 	methods: {
+		async deleteBlob(img: IAzureImage) {
+			this.blobs = this.blobs.filter(x => x != img);
+
+			console.log(`Deleted ${img.name}`);
+			await deleteBlobByName(img.name);
+		},
+		async bulkDeleteBlobs() {
+			const filteredblobs = this.blobs.filter(x => x.isChecked);
+
+			let counter = 0;
+			await Promise.all(
+				filteredblobs.map(async x => {
+					await this.deleteBlob(x);
+					counter++;
+				}),
+			);
+			alert(`Deleted ${counter} images`);
+		},
 		async loadBlobs() {
 			const containerCllient = await getAzureContainer();
 
@@ -94,6 +146,7 @@ export default Vue.extend({
 					id: i,
 					name: blobItem.value.name,
 					url: blobClient.url,
+					isChecked: false,
 				};
 
 				t.push(e);

@@ -5,4 +5,5 @@ export interface IAzureImage {
 	url: string;
 	tags?: string[];
 	fileSize?: number;
+	isChecked: boolean;
 }

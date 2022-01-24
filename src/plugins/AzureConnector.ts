@@ -11,3 +11,9 @@ export async function getAzureContainer(containerName = "swrpg-images"): Promise
 
 	return containerClient;
 }
+
+export async function deleteBlobByName(blobName: string, containerName = "swrpg-images"): Promise<boolean> {
+	const containerClient = await getAzureContainer();
+	await containerClient.deleteBlob(blobName);
+	return true;
+}
