@@ -51,7 +51,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { deleteBlobByName, getAzureContainer } from "@/plugins/AzureConnector";
-import { IAzureImage } from "@/types/AzureImage";
+import { AzureImage, IAzureImage } from "@/types/AzureImage";
 import DrpgImage from "@/components/DrpgImage.vue";
 export default Vue.extend({
 	name: "HookBuilder",
@@ -98,19 +98,21 @@ export default Vue.extend({
 		async loadBlobs() {
 			const containerCllient = await getAzureContainer();
 
-			const iter = containerCllient.listBlobsFlat();
+			const iter = containerCllient.listBlobsFlat({ includeTags: true });
 			let blobItem = await iter.next();
 
 			const t: IAzureImage[] = [];
 			let i = 0;
 			while (!blobItem.done) {
 				const blobClient = containerCllient.getBlobClient(blobItem.value.name);
-				const e: IAzureImage = {
+				console.log(blobItem.value.tags);
+				const e: IAzureImage = new AzureImage({
 					id: i,
+					tags: [],
 					name: blobItem.value.name,
 					url: blobClient.url,
 					isChecked: false,
-				};
+				});
 
 				t.push(e);
 				i++;

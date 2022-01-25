@@ -29,17 +29,17 @@
 								</v-card-title>
 
 								<v-col cols="12">
-									<v-text-field v-model="blob.tags" label="Tags"></v-text-field>
+									<v-text-field v-model="tagsText" label="Tags"></v-text-field>
 								</v-col>
 
 								<v-card-actions>
 									<v-spacer></v-spacer>
 
-									<v-btn color="red darken-1" text @click="dialog = false">
+									<v-btn color="red darken-1" text>
 										Cancel
 									</v-btn>
 
-									<v-btn color="green darken-1" text @click="alert('TODO')">
+									<v-btn color="green darken-1" text @click="updateTags()">
 										Save
 									</v-btn>
 								</v-card-actions>
@@ -53,12 +53,12 @@
 						<v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
 					</v-row>
 				</template>
-				<v-btn v-if="blob.tags" icon class="pa-3" style="opacity:0.6">
+				<v-btn v-if="blob.hasTags" icon class="pa-3" style="opacity:0.6">
 					<v-tooltip bottom>
 						<template v-slot:activator="{ on, attrs }">
 							<v-icon v-bind="attrs" color="#91FFFF" v-on="on">mdi-tag</v-icon>
 						</template>
-						<span>{{ blob.tags != null ? blob.tags : "No Tags" }}</span>
+						<span>{{ blob.displayTags() }}</span>
 					</v-tooltip>
 				</v-btn>
 			</v-img>
@@ -67,12 +67,14 @@
 </template>
 
 <script lang="ts">
-import { IAzureImage } from "@/types/AzureImage";
+import { updateBlobTags } from "@/plugins/AzureConnector";
+import { AzureImage } from "@/types/AzureImage";
 import Vue from "vue";
 export default Vue.extend({
 	data: () => {
 		return {
 			dialog: true,
+			tagsText: "",
 		};
 	},
 	props: {
@@ -80,7 +82,24 @@ export default Vue.extend({
 			type: Boolean,
 			default: false,
 		},
-		blob: Object as () => IAzureImage,
+		blob: AzureImage,
+	},
+
+	methods: {
+		async updateTags() {
+			const newTags = this.blob.parseTags(this.tagsText);
+			this.blob.tags = newTags;
+
+			const tagRecords: Record<string, string> = {};
+
+			this.blob.tags.map(e => {
+				tagRecords[`${e}`] = e;
+			});
+
+			await updateBlobTags(this.blob.name, tagRecords);
+
+			this.dialog = false;
+		},
 	},
 });
 </script>

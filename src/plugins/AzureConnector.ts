@@ -1,3 +1,4 @@
+import { AzureImage, IAzureImage } from "@/types/AzureImage";
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
 export async function getAzureContainer(containerName = "swrpg-images"): Promise<ContainerClient> {
@@ -13,7 +14,13 @@ export async function getAzureContainer(containerName = "swrpg-images"): Promise
 }
 
 export async function deleteBlobByName(blobName: string, containerName = "swrpg-images"): Promise<boolean> {
-	const containerClient = await getAzureContainer();
+	const containerClient = await getAzureContainer(containerName);
 	await containerClient.deleteBlob(blobName);
 	return true;
+}
+
+export async function updateBlobTags(blobName: string, tags: Record<string, string>, containerName = "swrpg-images") {
+	const containerClient = await getAzureContainer(containerName);
+	const blobClient = containerClient.getBlobClient(blobName);
+	await blobClient.setTags(tags);
 }
