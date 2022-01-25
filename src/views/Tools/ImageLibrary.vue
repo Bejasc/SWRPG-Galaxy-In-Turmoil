@@ -11,75 +11,7 @@
 
 		<v-row>
 			<v-col v-for="img in blobs" :key="img.t" cols="2">
-				<v-hover v-slot="{ hover }">
-					<v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
-						<v-img :src="img.url" :lazy-src="img.url" height="225px" contain>
-							<v-checkbox class="float-left pa-3" v-if="isAdminMode()" v-model="img.isChecked"></v-checkbox>
-
-							<div class="float-right pa-3">
-								<v-menu bottom left>
-									<template v-slot:activator="{ on, attrs }">
-										<v-btn dark icon v-bind="attrs" v-on="on">
-											<v-icon>mdi-dots-vertical</v-icon>
-										</v-btn>
-									</template>
-
-									<v-list>
-										<v-list-item
-											@click.stop="
-												selectedBlob = img;
-												dialog = true;
-											"
-											><v-list-item-title>Modify Tags</v-list-item-title></v-list-item
-										>
-									</v-list>
-
-									<v-dialog v-model="dialog" max-width="290">
-										<v-card>
-											<v-card-title class="text-h5">
-												{{ img.name }}
-											</v-card-title>
-
-											<v-col cols="12">
-												<v-text-field v-model="img.tags" label="Tags"></v-text-field>
-											</v-col>
-
-											<v-card-actions>
-												<v-spacer></v-spacer>
-
-												<v-btn color="red darken-1" text @click="dialog = false">
-													Cancel
-												</v-btn>
-
-												<v-btn color="green darken-1" text @click="updateTags(img)">
-													Save
-												</v-btn>
-											</v-card-actions>
-										</v-card>
-									</v-dialog>
-								</v-menu>
-							</div>
-							<!-- <div v-if="hover" class="background-color:red">
-								<v-btn v-if="isAdminMode()" icon class="float-left pa-3" @click="deleteBlob(img)">
-									<v-icon color="red">mdi-delete</v-icon>
-								</v-btn>
-							</div> -->
-							<template v-slot:placeholder>
-								<v-row class="fill-height ma-0" align="center" justify="center">
-									<v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-								</v-row>
-							</template>
-							<v-btn v-if="img.tags" icon class="pa-3" style="opacity:0.6">
-								<v-tooltip bottom>
-									<template v-slot:activator="{ on, attrs }">
-										<v-icon v-bind="attrs" color="#91FFFF" v-on="on">mdi-tag</v-icon>
-									</template>
-									<span>{{ img.tags != null ? img.tags : "No Tags" }}</span>
-								</v-tooltip>
-							</v-btn>
-						</v-img>
-					</v-card>
-				</v-hover>
+				<drpg-image :adminMode="isAdminMode()" :blob="img"></drpg-image>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -120,9 +52,10 @@
 import Vue from "vue";
 import { deleteBlobByName, getAzureContainer } from "@/plugins/AzureConnector";
 import { IAzureImage } from "@/types/AzureImage";
+import DrpgImage from "@/components/DrpgImage.vue";
 export default Vue.extend({
 	name: "HookBuilder",
-	components: {},
+	components: { DrpgImage },
 	data: () => {
 		return {
 			search: "",
@@ -144,10 +77,6 @@ export default Vue.extend({
 		this.loadBlobs();
 	},
 	methods: {
-		async updateTags(img: IAzureImage) {
-			this.blobs = this.blobs.map(x => (x.name != img.name ? x : img));
-			this.dialog = false;
-		},
 		async deleteBlob(img: IAzureImage) {
 			this.blobs = this.blobs.filter(x => x != img);
 
@@ -189,7 +118,7 @@ export default Vue.extend({
 				blobItem = await iter.next();
 			}
 
-			this.blobs = t;
+			this.blobs = t.slice(0, 10);
 		},
 		onFileChange(e: string | undefined) {
 			if (e != undefined) {
