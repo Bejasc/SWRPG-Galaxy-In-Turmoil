@@ -12,7 +12,7 @@
 							</v-btn>
 						</template>
 
-						<!-- <v-list>
+						<v-list>
 							<v-list-item
 								@click.stop="
 									selectedBlob = img;
@@ -20,32 +20,32 @@
 								"
 								><v-list-item-title>Modify Tags</v-list-item-title></v-list-item
 							>
-						</v-list> -->
-
-						<v-dialog v-model="dialog" max-width="290">
-							<v-card>
-								<v-card-title class="text-h5">
-									{{ blob.name }}
-								</v-card-title>
-
-								<v-col cols="12">
-									<v-text-field v-model="tagsText" label="Tags"></v-text-field>
-								</v-col>
-
-								<v-card-actions>
-									<v-spacer></v-spacer>
-
-									<v-btn color="red darken-1" text>
-										Cancel
-									</v-btn>
-
-									<v-btn color="green darken-1" text @click="updateTags()">
-										Save
-									</v-btn>
-								</v-card-actions>
-							</v-card>
-						</v-dialog>
+						</v-list>
 					</v-menu>
+
+					<v-dialog v-model="dialog" max-width="800">
+						<v-card>
+							<v-card-title class="text-h5">
+								{{ blob.name }}
+							</v-card-title>
+
+							<v-col cols="12">
+								<v-text-field v-model="tagsText" label="Tags"></v-text-field>
+							</v-col>
+
+							<v-card-actions>
+								<v-spacer></v-spacer>
+
+								<v-btn color="red darken-1" text @click="dialog = false">
+									Cancel
+								</v-btn>
+
+								<v-btn color="green darken-1" text @click="updateTags()">
+									Save
+								</v-btn>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
 				</div>
 
 				<template v-slot:placeholder>
@@ -73,7 +73,7 @@ import Vue from "vue";
 export default Vue.extend({
 	data: () => {
 		return {
-			dialog: true,
+			dialog: false,
 			tagsText: "",
 		};
 	},
@@ -84,7 +84,9 @@ export default Vue.extend({
 		},
 		blob: AzureImage,
 	},
-
+	mounted() {
+		this.tagsText = this.blob.displayTags();
+	},
 	methods: {
 		async updateTags() {
 			const newTags = this.blob.parseTags(this.tagsText);
@@ -93,10 +95,11 @@ export default Vue.extend({
 			const tagRecords: Record<string, string> = {};
 
 			this.blob.tags.map(e => {
-				tagRecords[`${e}`] = e;
+				tagRecords[`${e.trim()}`] = e.trim();
 			});
 
 			await updateBlobTags(this.blob.name, tagRecords);
+			this.tagsText = this.blob.displayTags();
 
 			this.dialog = false;
 		},

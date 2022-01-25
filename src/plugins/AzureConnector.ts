@@ -1,4 +1,3 @@
-import { AzureImage, IAzureImage } from "@/types/AzureImage";
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
 export async function getAzureContainer(containerName = "swrpg-images"): Promise<ContainerClient> {

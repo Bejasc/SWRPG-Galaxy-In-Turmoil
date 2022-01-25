@@ -30,7 +30,7 @@ export class AzureImage implements IAzureImage {
 	}
 
 	displayTags(): string {
-		if (this.tags.length == 0) return "No Tags";
+		if (this.tags.length == 0) return "";
 		else return this.tags.join(", ");
 	}
 

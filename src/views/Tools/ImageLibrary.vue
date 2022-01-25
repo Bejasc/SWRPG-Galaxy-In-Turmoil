@@ -105,10 +105,16 @@ export default Vue.extend({
 			let i = 0;
 			while (!blobItem.done) {
 				const blobClient = containerCllient.getBlobClient(blobItem.value.name);
+
+				let tags: string[] = [];
+				if (blobItem.value.tags) {
+					tags = Object.keys(blobItem.value.tags);
+				}
+
 				console.log(blobItem.value.tags);
 				const e: IAzureImage = new AzureImage({
 					id: i,
-					tags: [],
+					tags: tags.filter(x => x != "set"),
 					name: blobItem.value.name,
 					url: blobClient.url,
 					isChecked: false,
