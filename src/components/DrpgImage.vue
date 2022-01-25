@@ -1,7 +1,7 @@
 <template>
 	<v-hover v-slot="{ hover }">
 		<v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
-			<v-img :src="blob.url" :lazy-src="blob.url" height="225px" contain>
+			<v-img :src="blob.url" :lazy-src="blob.url" height="225px" contain @click="openFullView()">
 				<v-checkbox class="float-left pa-3" v-if="adminMode" v-model="blob.isChecked"></v-checkbox>
 
 				<div class="float-right pa-3">
@@ -13,13 +13,7 @@
 						</template>
 
 						<v-list>
-							<v-list-item
-								@click.stop="
-									selectedBlob = img;
-									dialog = true;
-								"
-								><v-list-item-title>Modify Tags</v-list-item-title></v-list-item
-							>
+							<v-list-item @click.stop="dialog = true"><v-list-item-title>Modify Tags</v-list-item-title></v-list-item>
 						</v-list>
 					</v-menu>
 
@@ -88,6 +82,9 @@ export default Vue.extend({
 		this.tagsText = this.blob.displayTags();
 	},
 	methods: {
+		openFullView() {
+			this.$emit("clicked", this.blob);
+		},
 		async updateTags() {
 			const newTags = this.blob.parseTags(this.tagsText);
 			this.blob.tags = newTags;

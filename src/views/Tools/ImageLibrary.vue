@@ -1,4 +1,4 @@
-<template>
+<template @keydown.esc="closeOverlay()">
 	<v-container fluid>
 		<v-toolbar dark>
 			<v-toolbar-title>Search</v-toolbar-title>
@@ -11,8 +11,12 @@
 
 		<v-row>
 			<v-col v-for="img in blobs" :key="img.t" cols="2">
-				<drpg-image :adminMode="isAdminMode()" :blob="img"></drpg-image>
+				<drpg-image :adminMode="isAdminMode()" :blob="img" @clicked="openFullView(img)"></drpg-image>
 			</v-col>
+
+			<v-overlay v-model="overlay" opacity="0.9" @click.native="closeOverlay" @keydown.native.esc="closeOverlay">
+				<img :src="selectedImage.url" />
+			</v-overlay>
 		</v-row>
 	</v-container>
 	<!-- <v-container fluid>
@@ -61,13 +65,13 @@ export default Vue.extend({
 			search: "",
 			url: "",
 			file: "",
-			tags: "",
 			rules: [(value: { size: number }) => !value || value.size < 4000000 || "File size should be less than 4 MB!"],
 			blobs: [] as IAzureImage[],
-			selectedBlob: null,
-			dialog: true,
+			overlay: false,
+			selectedImage: {} as AzureImage,
 		};
 	},
+
 	computed: {
 		selectedCount() {
 			return this.blobs.filter(x => x.isChecked == true).length;
@@ -77,6 +81,14 @@ export default Vue.extend({
 		this.loadBlobs();
 	},
 	methods: {
+		closeOverlay() {
+			this.overlay = false;
+		},
+		openFullView(img: AzureImage) {
+			console.log("a");
+			this.overlay = true;
+			this.selectedImage = img;
+		},
 		async deleteBlob(img: IAzureImage) {
 			this.blobs = this.blobs.filter(x => x != img);
 
@@ -111,7 +123,6 @@ export default Vue.extend({
 					tags = Object.keys(blobItem.value.tags);
 				}
 
-				console.log(blobItem.value.tags);
 				const e: IAzureImage = new AzureImage({
 					id: i,
 					tags: tags.filter(x => x != "set"),
