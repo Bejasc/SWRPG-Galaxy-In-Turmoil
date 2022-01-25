@@ -66,13 +66,13 @@ export default {
 				// 		router.push({ path: "/tools/item" });
 				// 	},
 				// },
-				{
-					text: "NPC Directory",
-					icon: "mdi-account",
-					click: function() {
-						router.push({ path: "/tools/npc" });
-					},
-				},
+				// {
+				// 	text: "NPC Directory",
+				// 	icon: "mdi-account",
+				// 	click: function() {
+				// 		router.push({ path: "/tools/npc" });
+				// 	},
+				// },
 				{
 					text: "Image Library",
 					icon: "mdi-image",
