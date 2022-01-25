@@ -10,7 +10,7 @@
 		</v-toolbar>
 
 		<v-row>
-			<v-col v-for="img in blobs" :key="img.t" cols="2">
+			<v-col v-for="img in filteredImages" :key="img.t" cols="2">
 				<drpg-image :adminMode="isAdminMode()" :blob="img" @clicked="openFullView(img)"></drpg-image>
 			</v-col>
 
@@ -85,6 +85,15 @@ export default Vue.extend({
 		selectedCount() {
 			return this.blobs.filter(x => x.isChecked == true).length;
 		},
+		filteredImages(): AzureImage[] {
+			if (this.search == "") return this.blobs.map(e => new AzureImage(e));
+
+			const matchingBlobs = this.blobs.filter(x => {
+				return x.tags.some(t => t.toLowerCase().includes(this.search.toLowerCase()));
+			});
+
+			return matchingBlobs.map(e => new AzureImage(e));
+		},
 	},
 	mounted() {
 		this.loadBlobs();
@@ -146,7 +155,7 @@ export default Vue.extend({
 				blobItem = await iter.next();
 			}
 
-			this.blobs = t.slice(0, 10);
+			this.blobs = t; //.slice(0, 10);
 		},
 		onFileChange(e: string | undefined) {
 			if (e != undefined) {

@@ -1,8 +1,8 @@
 <template>
 	<v-hover v-slot="{ hover }">
 		<v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
-			<v-alert transition="fade-transition" v-model="clipboardAlert" type="success">Image URL was copied to Clipboard</v-alert>
-			<v-alert transition="fade-transition" v-model="tagUpdatedAlert" type="info">{{ tagUpdatedMessage }}</v-alert>
+			<v-alert transition="fade-transition" style="z-index:999!important" v-model="clipboardAlert" type="success">Image URL was copied to Clipboard</v-alert>
+			<v-alert transition="fade-transition" style="z-index:999!important" v-model="tagUpdatedAlert" type="info">{{ tagUpdatedMessage }}</v-alert>
 
 			<v-img :src="blob.url" :lazy-src="blob.url" height="225px" contain @click="openFullView()">
 				<v-checkbox class="float-left pa-3" v-if="adminMode" v-model="blob.isChecked"></v-checkbox>
