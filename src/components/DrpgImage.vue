@@ -1,6 +1,9 @@
 <template>
 	<v-hover v-slot="{ hover }">
 		<v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }">
+			<v-alert transition="fade-transition" v-model="clipboardAlert" type="success">Image URL was copied to Clipboard</v-alert>
+			<v-alert transition="fade-transition" v-model="tagUpdatedAlert" type="info">{{ tagUpdatedMessage }}</v-alert>
+
 			<v-img :src="blob.url" :lazy-src="blob.url" height="225px" contain @click="openFullView()">
 				<v-checkbox class="float-left pa-3" v-if="adminMode" v-model="blob.isChecked"></v-checkbox>
 
@@ -13,7 +16,8 @@
 						</template>
 
 						<v-list>
-							<v-list-item @click.stop="dialog = true"><v-list-item-title>Modify Tags</v-list-item-title></v-list-item>
+							<v-list-item @click="copyImageToClipboard"><v-list-item-title>Copy Image URL</v-list-item-title></v-list-item>
+							<v-list-item @click="dialog = true"><v-list-item-title>Modify Tags</v-list-item-title></v-list-item>
 						</v-list>
 					</v-menu>
 
@@ -29,11 +33,9 @@
 
 							<v-card-actions>
 								<v-spacer></v-spacer>
-
 								<v-btn color="red darken-1" text @click="dialog = false">
 									Cancel
 								</v-btn>
-
 								<v-btn color="green darken-1" text @click="updateTags()">
 									Save
 								</v-btn>
@@ -69,6 +71,9 @@ export default Vue.extend({
 		return {
 			dialog: false,
 			tagsText: "",
+			clipboardAlert: false,
+			tagUpdatedMessage: "",
+			tagUpdatedAlert: false,
 		};
 	},
 	props: {
@@ -82,6 +87,20 @@ export default Vue.extend({
 		this.tagsText = this.blob.displayTags();
 	},
 	methods: {
+		async showTagUpdatedAlert() {
+			this.tagUpdatedMessage = `Tags for ${this.blob.name} were updated`;
+			this.tagUpdatedAlert = true;
+			setTimeout(() => {
+				this.tagUpdatedAlert = false;
+			}, 3000);
+		},
+		async copyImageToClipboard() {
+			navigator.clipboard.writeText(this.blob.url);
+			this.clipboardAlert = true;
+			setTimeout(() => {
+				this.clipboardAlert = false;
+			}, 3000);
+		},
 		openFullView() {
 			this.$emit("clicked", this.blob);
 		},
@@ -99,6 +118,8 @@ export default Vue.extend({
 			this.tagsText = this.blob.displayTags();
 
 			this.dialog = false;
+
+			this.showTagUpdatedAlert();
 		},
 	},
 });

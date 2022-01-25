@@ -52,6 +52,16 @@
 	</v-container> -->
 </template>
 
+<style>
+.v-alert {
+	position: fixed;
+	left: 50%;
+	bottom: 50px;
+	transform: translate(-50%, -50%);
+	margin: 0 auto;
+}
+</style>
+
 <script lang="ts">
 import Vue from "vue";
 import { deleteBlobByName, getAzureContainer } from "@/plugins/AzureConnector";
@@ -71,7 +81,6 @@ export default Vue.extend({
 			selectedImage: {} as AzureImage,
 		};
 	},
-
 	computed: {
 		selectedCount() {
 			return this.blobs.filter(x => x.isChecked == true).length;
