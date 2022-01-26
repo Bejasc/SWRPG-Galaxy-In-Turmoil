@@ -8,7 +8,7 @@ interface IEmbedOptions {
 	image?: string;
 	thumbnail?: string;
 	/**The colour that appears dow nthe side of the embed */
-	color?: string;
+	color: string;
 }
 
 interface ILocationOptions {
@@ -95,6 +95,7 @@ export class SwrpgEvent implements IEvent {
 			title: "New Event",
 			description: "Event Description",
 			thumbnail: "https://cdn.discordapp.com/attachments/880980324505513984/935794248148746250/badge_dice.png",
+			color: "#E6A00E",
 		};
 		this.locationOptions = event?.locationOptions ?? undefined;
 		this.eventLinks = event?.eventLinks ?? [];
