@@ -41,6 +41,11 @@ const routes: Array<RouteConfig> = [
 				name: "Image Library",
 				component: () => import("@/views/Tools/ImageLibrary.vue"),
 			},
+			{
+				path: "eventBuilder",
+				name: "Event Builder",
+				component: () => import("@/views/Contributors/EventBuilder.vue"),
+			},
 		],
 	},
 ];
