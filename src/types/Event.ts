@@ -20,7 +20,7 @@ interface ILocationOptions {
 
 type RequirementMatch = "One of" | "All of" | "None of";
 
-interface IEventLink {
+export interface IEventLink {
 	/**The text to be displayed as the Title of the Embed Field */
 	optionText?: string;
 	/**The reaction to be displayed as the option to select, as well as in the Embed Field */
@@ -93,7 +93,7 @@ export class SwrpgEvent implements IEvent {
 	constructor(event?: IEvent) {
 		this.embedOptions = event?.embedOptions ?? {
 			title: "New Event",
-			description: "Event Description",
+			description: "",
 			thumbnail: "https://cdn.discordapp.com/attachments/880980324505513984/935794248148746250/badge_dice.png",
 			color: "#E6A00E",
 		};

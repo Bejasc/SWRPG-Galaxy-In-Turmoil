@@ -4,8 +4,8 @@
 			<v-card-title
 				>{{ parentEvent.embedOptions.title }}
 				<v-spacer></v-spacer>
-				<v-btn class="ma-1" outlined color="red">Clear</v-btn>
-				<v-btn class="ma-1" outlined color="green">Export</v-btn>
+				<v-btn class="ma-1" outlined color="red" @click="resetEvent">Clear</v-btn>
+				<v-btn class="ma-1" outlined color="green" @click="exportEvent">Export</v-btn>
 			</v-card-title>
 
 			<event-main :event="parentEvent"></event-main>
@@ -34,6 +34,15 @@ export default Vue.extend({
 		return {
 			parentEvent: new SwrpgEvent(),
 		};
+	},
+	methods: {
+		exportEvent() {
+			const eventAsJson = JSON.stringify(this.parentEvent, null, "\t");
+			navigator.clipboard.writeText(eventAsJson);
+		},
+		resetEvent() {
+			this.parentEvent = new SwrpgEvent();
+		},
 	},
 });
 </script>

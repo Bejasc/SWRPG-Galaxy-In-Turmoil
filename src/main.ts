@@ -6,10 +6,11 @@ import Vue from "vue";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
 import dotenv from "dotenv";
-
+import VEmojiPicker from "v-emoji-picker";
 dotenv.config();
 
 Vue.config.productionTip = false;
+Vue.use(VEmojiPicker);
 
 new Vue({
 	router,
