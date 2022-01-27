@@ -94,7 +94,6 @@ export class SwrpgEvent implements IEvent {
 		this.embedOptions = event?.embedOptions ?? {
 			title: "New Event",
 			description: "",
-			thumbnail: "https://cdn.discordapp.com/attachments/880980324505513984/935794248148746250/badge_dice.png",
 			color: "#E6A00E",
 		};
 		this.locationOptions = event?.locationOptions ?? undefined;

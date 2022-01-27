@@ -13,15 +13,7 @@
 								<v-textarea v-model="event.embedOptions.description" label="Event Message" placeholder="Message"></v-textarea>
 								<v-text-field v-model="event.embedOptions.thumbnail" label="Thumbnail URL" placeholder="Image URL"></v-text-field>
 								<v-text-field v-model="event.embedOptions.img" label="Image URL" placeholder="Image URL"></v-text-field>
-								<v-color-picker
-									v-model="event.embedOptions.color"
-									hide-canvas
-									hide-inputs
-									hide-sliders
-									show-swatches
-									:swatches="swatches"
-									width="100%"
-								></v-color-picker>
+								<DrpgColorPicker :value="this.event.embedOptions.color" @colorUpdated="event.embedOptions.color = $event"></DrpgColorPicker>
 							</v-form>
 						</v-expansion-panel-content>
 					</v-expansion-panel>
@@ -46,10 +38,17 @@
 import Vue from "vue";
 import { SwrpgEvent } from "@/types/Event";
 import EventLink from "./EventLink.vue";
+import DrpgColorPicker from "../DrpgColorPicker.vue";
 export default Vue.extend({
-	components: { EventLink },
+	components: {
+		EventLink,
+		DrpgColorPicker,
+	},
 	props: {
 		event: SwrpgEvent,
+	},
+	data: () => {
+		return {};
 	},
 	methods: {
 		addEventLink() {
@@ -59,11 +58,9 @@ export default Vue.extend({
 				optionDescription: "",
 			});
 		},
-	},
-	data: () => {
-		return {
-			swatches: [["#E6A00E"], ["#1db954"], ["#db4437"], ["#00a4ef"], ["#B0BEC5"], ["#455A64"], ["#263238"]],
-		};
+		testEvent(obj: string) {
+			this.event.embedOptions.color = obj;
+		},
 	},
 });
 </script>
