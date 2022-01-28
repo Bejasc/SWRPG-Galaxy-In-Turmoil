@@ -26,10 +26,8 @@
 import Vue from "vue";
 import { IEventLink } from "@/types/Event";
 
-export default Vue.extend({
-	components: {
-		EventMain: () => import("@/components/EventBuilder/EventMain.vue"),
-	},
+export default Vue.component("EventLink", {
+	name: "EventLink",
 	data: () => {
 		return {
 			showPicker: false,

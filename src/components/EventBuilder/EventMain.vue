@@ -38,11 +38,10 @@
 import Vue from "vue";
 import { SwrpgEvent } from "@/types/Event";
 import DrpgColorPicker from "@/components/DrpgColorPicker.vue";
-import EventLink from "@/components/EventBuilder/EventLink.vue";
 
-export default Vue.extend({
+export default Vue.component("EventMain", {
+	name: "EventMain",
 	components: {
-		EventLink,
 		DrpgColorPicker,
 	},
 	props: {

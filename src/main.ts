@@ -13,6 +13,12 @@ dotenv.config();
 Vue.config.productionTip = false;
 Vue.use(VEmojiPicker);
 
+import EventMain from "@/components/EventBuilder/EventMain.vue";
+import EventLink from "@/components/EventBuilder/EventLink.vue";
+
+Vue.component("EventMain", EventMain);
+Vue.component("EventLink", EventLink);
+
 new Vue({
 	router,
 	vuetify,

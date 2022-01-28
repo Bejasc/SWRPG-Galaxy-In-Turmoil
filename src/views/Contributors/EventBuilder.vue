@@ -8,7 +8,7 @@
 				<v-btn class="ma-1" outlined color="green" @click="exportEvent">Export</v-btn>
 			</v-card-title>
 
-			<event-main :event="parentEvent"></event-main>
+			<EventMain :event="parentEvent"></EventMain>
 		</v-card>
 	</v-col>
 </template>
@@ -24,11 +24,9 @@
 </style>
 
 <script lang="ts">
-import EventMain from "@/components/EventBuilder/EventMain.vue";
 import { SwrpgEvent } from "@/types/Event";
 import Vue from "vue";
 export default Vue.extend({
-	components: { EventMain },
 	name: "EventBuilder",
 	data: () => {
 		return {
