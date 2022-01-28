@@ -20,7 +20,7 @@
 					<v-expansion-panel>
 						<v-expansion-panel-header class="blue-grey darken-1 font-weight-medium">Event Links</v-expansion-panel-header>
 						<v-expansion-panel-content>
-							<event-link v-for="(link, i) in event.eventLinks" :key="i" :eventLink="link"></event-link>
+							<EventLink v-for="(link, i) in event.eventLinks" :key="i" :eventLink="link"></EventLink>
 							<div class="text-center">
 								<v-btn class="ma-2" small outlined fab color="white" @click="addEventLink">
 									<v-icon>mdi-plus</v-icon>
@@ -37,10 +37,10 @@
 <script lang="ts">
 import Vue from "vue";
 import { SwrpgEvent } from "@/types/Event";
-import EventLink from "./EventLink.vue";
-import DrpgColorPicker from "../DrpgColorPicker.vue";
+import DrpgColorPicker from "@/components/DrpgColorPicker.vue";
+import EventLink from "@/components/EventBuilder/EventLink.vue";
+
 export default Vue.extend({
-	name: "EventMain",
 	components: {
 		EventLink,
 		DrpgColorPicker,

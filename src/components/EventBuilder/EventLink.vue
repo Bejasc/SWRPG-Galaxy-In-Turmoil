@@ -14,7 +14,8 @@
 					</v-row>
 				</v-container>
 				<v-text-field label="Description" placeholder="Provide som extra context or description" v-model="eventLink.optionDescription"></v-text-field>
-				<event-main :event="eventLink.event"></event-main>
+				<EventMain :event="eventLink.event"></EventMain>
+
 				<!-- <VEmojiPicker v-show="showPicker" class="dark" :style="{ width: '440px', height: '150' }" @select="selectEmoji" /> -->
 			</v-expansion-panel-content>
 		</v-expansion-panel>
@@ -23,11 +24,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-
 import { IEventLink } from "@/types/Event";
-import EventMain from "./EventMain.vue";
+
 export default Vue.extend({
-	components: { EventMain },
+	components: {
+		EventMain: () => import("@/components/EventBuilder/EventMain.vue"),
+	},
 	data: () => {
 		return {
 			showPicker: false,
