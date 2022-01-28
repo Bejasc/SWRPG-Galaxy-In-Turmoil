@@ -28,7 +28,7 @@ export interface IEventLink {
 	/**A longer description of the action taken, shown as the content of the Embed Field */
 	optionDescription?: string;
 	/**The event that is presented when this option is selected. If more than one element exists, it will pick one at random */
-	event: IEvent[];
+	event: IEvent;
 }
 
 export interface IRequirementDetail {

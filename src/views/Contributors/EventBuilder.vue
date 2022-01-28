@@ -1,5 +1,5 @@
 <template @keydown.esc="closeOverlay()">
-	<v-col cols="5">
+	<v-col cols="12">
 		<v-card>
 			<v-card-title
 				>{{ parentEvent.embedOptions.title }}

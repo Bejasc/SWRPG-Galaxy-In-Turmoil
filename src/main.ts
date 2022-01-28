@@ -7,6 +7,7 @@ import router from "./router";
 import vuetify from "./plugins/vuetify";
 import dotenv from "dotenv";
 import VEmojiPicker from "v-emoji-picker";
+import mongoose, { Document, Schema } from "mongoose";
 dotenv.config();
 
 Vue.config.productionTip = false;

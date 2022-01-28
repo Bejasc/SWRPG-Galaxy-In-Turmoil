@@ -1,5 +1,5 @@
 <template>
-	<v-expansion-panels accordion class="overflow-auto" inset>
+	<v-expansion-panels accordion>
 		<v-expansion-panel class="overflow-auto">
 			<v-expansion-panel-header>{{ event.embedOptions.title }}</v-expansion-panel-header>
 			<div class="float-left" :style="`margin-top:-50px;background-color:${event.embedOptions.color};width:6px;height:100%`"></div>
@@ -40,6 +40,7 @@ import { SwrpgEvent } from "@/types/Event";
 import EventLink from "./EventLink.vue";
 import DrpgColorPicker from "../DrpgColorPicker.vue";
 export default Vue.extend({
+	name: "EventMain",
 	components: {
 		EventLink,
 		DrpgColorPicker,
@@ -53,7 +54,7 @@ export default Vue.extend({
 	methods: {
 		addEventLink() {
 			this.event.eventLinks.push({
-				event: [new SwrpgEvent()],
+				event: new SwrpgEvent(),
 				optionText: "New Option",
 				optionDescription: "",
 			});

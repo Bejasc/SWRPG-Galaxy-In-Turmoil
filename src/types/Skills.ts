@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface IItem extends Document {
-	_id: string;
+export interface ISkill extends Document {
 	name: string;
 	description: string;
 	image?: string;
-	encumbrance?: number;
+	emoji?: string;
 }
 
-export const ItemSchema: Schema = new Schema(
+export const SkillSchema: Schema = new Schema(
 	{
 		name: String,
 		description: String,
@@ -19,4 +18,11 @@ export const ItemSchema: Schema = new Schema(
 	{ collation: { locale: "en", strength: 2 } },
 );
 
-export const Item = mongoose.model<IItem>("item", ItemSchema);
+export const Skill = mongoose.model<ISkill>("Stats", SkillSchema);
+
+export interface ISkillLevel {
+	skillName: string;
+	skill?: ISkill;
+	level?: number;
+	experience?: number;
+}
