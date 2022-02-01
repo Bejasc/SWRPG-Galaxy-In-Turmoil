@@ -38,6 +38,9 @@
 import Vue from "vue";
 import { SwrpgEvent } from "@/types/Event";
 import DrpgColorPicker from "@/components/DrpgColorPicker.vue";
+import axios, { Axios } from "axios";
+import { IItem } from "@/types/Item";
+import { getFromMongo } from "@/plugins/MongoConnector";
 
 export default Vue.component("EventMain", {
 	name: "EventMain",
@@ -47,8 +50,13 @@ export default Vue.component("EventMain", {
 	props: {
 		event: SwrpgEvent,
 	},
+	mounted() {
+		this.loadAllItems();
+	},
 	data: () => {
-		return {};
+		return {
+			items: [] as IItem[],
+		};
 	},
 	methods: {
 		addEventLink() {
@@ -60,6 +68,10 @@ export default Vue.component("EventMain", {
 		},
 		testEvent(obj: string) {
 			this.event.embedOptions.color = obj;
+		},
+		async loadAllItems() {
+			const i = await getFromMongo<IItem>("items");
+			this.items.push(...i);
 		},
 	},
 });
