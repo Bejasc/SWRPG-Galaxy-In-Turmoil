@@ -11,6 +11,16 @@
 						<v-list-item-title>About</v-list-item-title>
 					</v-list-item> -->
 
+					<v-list-group color="white" :value="true" prepend-icon="mdi-book-open-page-variant">
+						<template v-slot:activator>
+							<v-list-item-title>Datasets</v-list-item-title>
+						</template>
+
+						<v-list-item v-for="item in datasets" class="ml-15" :key="item.text" link active-class="big" @click="item.click()">
+							<v-list-item-title>{{ item.text }}</v-list-item-title>
+						</v-list-item>
+					</v-list-group>
+
 					<v-list-group color="white" :value="true" prepend-icon="mdi-star-shooting">
 						<template v-slot:activator>
 							<v-list-item-title>Contributor Tools</v-list-item-title>
@@ -61,6 +71,20 @@ import router from "@/router";
 export default {
 	data() {
 		return {
+			datasets: [
+				{
+					text: "Items",
+					click: function() {
+						router.push({ path: "/data/items" });
+					},
+				},
+				{
+					text: "NPCs",
+					click: function() {
+						router.push({ path: "/data/npc" });
+					},
+				},
+			],
 			gmTools: [
 				{
 					text: "Hook Builder",
@@ -111,12 +135,6 @@ export default {
 					text: "Event Images",
 					click: function() {
 						router.push({ path: "/tools/resources/images" });
-					},
-				},
-				{
-					text: "NPC Tokens",
-					click: function() {
-						router.push({ path: "/tools/resources/npcTokens" });
 					},
 				},
 			],

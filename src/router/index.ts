@@ -22,11 +22,6 @@ const routes: Array<RouteConfig> = [
 		component: () => import("@/views/Tools.vue"),
 		children: [
 			{
-				path: "npc",
-				name: "NPC Directory",
-				component: () => import("@/views/Tools/NpcDirectory.vue"),
-			},
-			{
 				path: "hook",
 				name: "Hook Builder",
 				component: () => import("@/views/Tools/HookBuilder.vue"),
@@ -45,6 +40,23 @@ const routes: Array<RouteConfig> = [
 				path: "eventBuilder",
 				name: "Event Builder",
 				component: () => import("@/views/Contributors/EventBuilder.vue"),
+			},
+		],
+	},
+	{
+		path: "/data",
+		name: "Data",
+		component: () => import("@/views/Tools.vue"),
+		children: [
+			{
+				path: "npc",
+				name: "NPC Directory",
+				component: () => import("@/views/NpcDirectory.vue"),
+			},
+			{
+				path: "items",
+				name: "Item Directory",
+				component: () => import("@/views/Data/ItemDirectory.vue"),
 			},
 		],
 	},
