@@ -1,38 +1,38 @@
 <template>
 	<v-container fluid>
-		<v-toolbar dark>
+		<v-toolbar dark class="mb-4">
 			<v-toolbar-title>Search</v-toolbar-title>
-			<v-text-field class="mx-4" v-model="search" clearable rounded flat hide-details label="Search for an NPC by ther name or affiliation" solo-inverted></v-text-field>
+			<v-text-field class="mx-4" v-model="search" clearable rounded flat hide-details label="Search for an Item by its name, alias, or category" solo-inverted></v-text-field>
 		</v-toolbar>
 		<v-row>
-			<v-col v-for="npc in filteredNpcs" :key="npc.name" cols="3">
+			<v-col v-for="item in filteredItems" :key="item._id" cols="2">
 				<v-card>
-					<v-img :src="npc.avatar" class="white--text" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px" @click="npc.getRandomName()">
-						<div v-if="npc.verified" class="float-left pa-3">
+					<v-img :src="item.image" contain class="white--text" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
+						<!-- <div v-if="item.isVerified" class="float-left pa-3">
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<v-icon color="#91FFFF" v-bind="attrs" v-on="on">mdi-check-decagram</v-icon>
 								</template>
-								<span>Thie NPC exists in the SWRPG Database, and can be used with the '^!npc' command</span>
+								<span>Thie Item exists in the SWRPG Database</span>
 							</v-tooltip>
-						</div>
+						</div> -->
 
-						<v-icon class="float-right pa-3">mdi-dots-vertical</v-icon>
+						<!-- <v-icon class="float-right pa-3">mdi-dots-vertical</v-icon> -->
 					</v-img>
 
 					<v-card-actions>
 						<span class="subtitle-1">
-							{{ npc.name }}
+							{{ item.name }}
 						</span>
 
 						<v-spacer />
 
-						<v-btn v-if="npc.isCombatant" icon>
+						<v-btn icon>
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
-									<v-icon v-bind="attrs" v-on="on">mdi-sword-cross</v-icon>
+									<v-icon v-bind="attrs" v-on="on">mdi-shape</v-icon>
 								</template>
-								<span>This NPC is preconfigured for combat.</span>
+								<span>{{ item.category }}</span>
 							</v-tooltip>
 						</v-btn>
 					</v-card-actions>
@@ -43,10 +43,11 @@
 </template>
 
 <script lang="ts">
-import { NPC_LIST, Npc, INpc } from "@/types/Npcs/Npc";
+import { getFromMongo } from "@/plugins/MongoConnector";
+import { IItem } from "@/types/Item";
 import Vue from "vue";
 export default Vue.extend({
-	name: "Item Directory",
+	name: "HookBuilder",
 	components: {
 		// VueCodeHighlight,
 		// DiscordEmbed,
@@ -54,13 +55,26 @@ export default Vue.extend({
 	data: () => {
 		return {
 			search: "",
-			npcs: [...NPC_LIST.map(e => new Npc(e))],
+			items: [] as IItem[],
 		};
 	},
+	mounted() {
+		this.loadItemsFromMongo();
+	},
+	methods: {
+		async loadItemsFromMongo() {
+			this.items = await getFromMongo<IItem>("items");
+		},
+	},
 	computed: {
-		filteredNpcs(): INpc[] {
-			return this.npcs.filter((npc: Npc) => {
-				return npc.tags.some(t => t.toLowerCase().includes(this.search.toLowerCase()));
+		filteredItems(): IItem[] {
+			return this.items.filter((item: IItem) => {
+				return (
+					item.name.toLowerCase().includes(this.search.toLowerCase()) ||
+					item.aliases.some(e => e.toLowerCase().includes(this.search.toLowerCase())) ||
+					item.category.toLowerCase().includes(this.search.toLowerCase())
+				);
+				//return npc.tags.some(t => t.toLowerCase().includes(this.search.toLowerCase()));
 			});
 		},
 	},

@@ -4,21 +4,21 @@ type allowedMongoCollections = "items" | "locations" | "skills";
 
 export async function getFromMongo<T>(collection: allowedMongoCollections): Promise<T[]> {
 	const corsBypass = "https://corsanywhere.herokuapp.com/";
+	const mongoApiKey: string = process.env.VUE_APP_MONGO_API_KEY ?? "NOT PROVIDED";
+	const mongoSource: string = process.env.VUE_APP_MONGO_SOURCE ?? "NOT PROVIDED";
+	const mongoDatabase: string = process.env.VUE_APP_MONGO_DB ?? "NOT PROVIDED";
 
 	const data = JSON.stringify({
 		collection: collection,
-		database: "swrpg-test",
-		dataSource: "discord-swrpg",
+		database: mongoDatabase,
+		dataSource: mongoSource,
 	});
-
-	const mongoApiKey: string = process.env.VUE_APP_MONGO_API_KEY ?? "NOT PROVIDED";
-	console.log(mongoApiKey);
 
 	const response = await axios({
 		method: "post",
 		url: `${corsBypass}https://data.mongodb-api.com/app/data-ogatg/endpoint/data/beta/action/find`,
 		headers: {
-			"Access-Control-Request-Headers": "*",
+			// "Access-Control-Request-Headers": "*",
 			"Content-Type": "application/json",
 			"Access-Control-Allow-Origin": "*",
 			"api-key": mongoApiKey,
