@@ -13,18 +13,17 @@ export interface IItem extends Document {
 
 export const ItemSchema: Schema = new Schema(
 	{
+		id: String,
 		name: String,
-		description: String,
+		aliases: [String],
 		category: String,
+		description: String,
 		image: String,
-		emoji: String,
+		encumbrance: Number,
 	},
 	{ collation: { locale: "en", strength: 2 } },
 );
 
-ItemSchema.methods.isVerified = function(): boolean {
-	//TODO determine this in a more meaningful way
-	return true;
-};
-
 export const Item = mongoose.model<IItem>("item", ItemSchema);
+
+const x = new Item();
