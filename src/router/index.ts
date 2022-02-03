@@ -51,7 +51,7 @@ const routes: Array<RouteConfig> = [
 			{
 				path: "npc",
 				name: "NPC Directory",
-				component: () => import("@/views/NpcDirectory.vue"),
+				component: () => import("@/views/Data/NpcDirectory.vue"),
 			},
 			{
 				path: "items",

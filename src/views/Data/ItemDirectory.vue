@@ -39,16 +39,19 @@
 				</v-card>
 			</v-col>
 		</v-row>
+		<loader :showLoader="showLoader" />
 	</v-container>
 </template>
 
 <script lang="ts">
+import Loader from "@/components/Loader.vue";
 import { getFromMongo } from "@/plugins/MongoConnector";
 import { IItem } from "@/types/Item";
 import Vue from "vue";
 export default Vue.extend({
 	name: "HookBuilder",
 	components: {
+		Loader,
 		// VueCodeHighlight,
 		// DiscordEmbed,
 	},
@@ -56,14 +59,17 @@ export default Vue.extend({
 		return {
 			search: "",
 			items: [] as IItem[],
+			showLoader: false,
 		};
 	},
 	mounted() {
+		this.showLoader = true;
 		this.loadItemsFromMongo();
 	},
 	methods: {
 		async loadItemsFromMongo() {
 			this.items = await getFromMongo<IItem>("items");
+			this.showLoader = false;
 		},
 	},
 	computed: {
