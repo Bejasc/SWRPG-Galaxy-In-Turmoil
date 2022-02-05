@@ -3,7 +3,7 @@
 		<v-toolbar dark class="mb-4">
 			<v-toolbar-title>Search</v-toolbar-title>
 			<v-text-field class="mx-4" v-model="search" clearable rounded flat hide-details label="Search for an Item by its name, alias, or category" solo-inverted></v-text-field>
-			<v-btn outlined color="blue" class="ma-5" @click="openFullView(null, true)">
+			<v-btn outlined disabled color="blue" class="ma-5" @click="openFullView(null, true)">
 				Add New
 			</v-btn>
 		</v-toolbar>
@@ -51,7 +51,7 @@
 import Loader from "@/components/Loader.vue";
 import ItemFullView from "@/components/ItemFullView.vue";
 import { getFromMongo } from "@/plugins/MongoConnector";
-import { IItem } from "@/types/Item";
+import { IItem } from "@/types/SwrpgTypes/Item";
 import Vue from "vue";
 export default Vue.extend({
 	name: "HookBuilder",

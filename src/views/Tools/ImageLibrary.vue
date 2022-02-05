@@ -108,7 +108,6 @@ export default Vue.extend({
 			this.overlay = false;
 		},
 		openFullView(img: AzureImage) {
-			console.log("a");
 			this.overlay = true;
 			this.selectedImage = img;
 		},

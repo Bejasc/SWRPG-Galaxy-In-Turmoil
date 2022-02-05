@@ -1,7 +1,7 @@
 import { JsonForms } from "@jsonforms/vue2";
 import axios from "axios";
 
-type allowedMongoCollections = "items" | "locations" | "skills";
+type allowedMongoCollections = "items" | "locations" | "skills" | "npcs";
 
 export async function getFromMongo<T>(collection: allowedMongoCollections): Promise<T[]> {
 	const corsBypass = "https://corsanywhere.herokuapp.com/";
@@ -28,7 +28,6 @@ export async function getFromMongo<T>(collection: allowedMongoCollections): Prom
 	});
 
 	const result: T[] = JSON.parse(JSON.stringify(response.data.documents));
-	console.log(result);
 	return result;
 }
 
@@ -58,6 +57,5 @@ export async function pushToMongo<T>(collection: allowedMongoCollections, docume
 	});
 
 	const result: T[] = JSON.parse(JSON.stringify(response.data.documents));
-	console.log(result);
 	return result;
 }

@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { Item } from "@/types/Item";
+import { Item } from "@/types/SwrpgTypes/Item";
 import { component as VueCodeHighlight } from "vue-code-highlight";
 import DiscordEmbed from "../../components/Discord/DiscordEmbed.vue";
 import DiscordEmbedFields from "../../components/Discord/DiscordEmbedFields.vue";
@@ -89,7 +89,6 @@ export default {
 		saveItem() {
 			const itemAsJson = JSON.stringify(this.item, null, "\t");
 			this.itemJson = itemAsJson;
-			console.log(itemAsJson);
 		},
 		copyToClipboard() {
 			this.snackbar = true;

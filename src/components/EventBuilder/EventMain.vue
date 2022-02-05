@@ -39,7 +39,7 @@ import Vue from "vue";
 import { SwrpgEvent } from "@/types/Event";
 import DrpgColorPicker from "@/components/DrpgColorPicker.vue";
 import axios, { Axios } from "axios";
-import { IItem } from "@/types/Item";
+import { IItem } from "@/types/SwrpgTypes/Item";
 import { getFromMongo } from "@/plugins/MongoConnector";
 
 export default Vue.component("EventMain", {

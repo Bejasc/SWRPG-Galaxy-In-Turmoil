@@ -21,7 +21,7 @@
 						</v-list-item>
 					</v-list-group>
 
-					<v-list-group color="white" :value="true" prepend-icon="mdi-star-shooting">
+					<!-- <v-list-group color="white" :value="true" prepend-icon="mdi-star-shooting">
 						<template v-slot:activator>
 							<v-list-item-title>Contributor Tools</v-list-item-title>
 						</template>
@@ -29,7 +29,7 @@
 						<v-list-item v-for="item in contributorResources" class="ml-15" :key="item.text" link active-class="big" @click="item.click()">
 							<v-list-item-title>{{ item.text }}</v-list-item-title>
 						</v-list-item>
-					</v-list-group>
+					</v-list-group> -->
 
 					<v-list-group color="white" :value="true" prepend-icon="mdi-dice-d20">
 						<template v-slot:activator>

@@ -85,7 +85,7 @@
 
 <script lang="ts">
 import { pushToMongo } from "@/plugins/MongoConnector";
-import { Item, IItem } from "@/types/Item";
+import { Item, IItem } from "@/types/SwrpgTypes/Item";
 import Vue from "vue";
 export default Vue.extend({
 	props: {
@@ -100,7 +100,6 @@ export default Vue.extend({
 	},
 	methods: {
 		getItemAliases() {
-			console.log(this.item.encumbrance);
 			return this.item.aliases.join(", ");
 		},
 		async saveNewItem() {
