@@ -95,7 +95,7 @@ export default Vue.extend({
 		closeView() {
 			this.showFullView = false;
 		},
-		addItem(item: IItem) {
+		addItem(item: INpc) {
 			this.showFullView = false;
 
 			this.items.push(item);

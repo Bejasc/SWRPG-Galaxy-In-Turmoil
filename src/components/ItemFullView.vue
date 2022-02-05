@@ -36,7 +36,7 @@
 									<v-text-field v-model="item.encumbrance" v-else label="Encumbrance" readonly outlined dense></v-text-field>
 								</v-col>
 								<v-col sm="12">
-									<v-textarea v-if="allowEdit" label="Description" dense required outlined></v-textarea>
+									<v-textarea v-model="item.description" v-if="allowEdit" label="Description" dense required outlined></v-textarea>
 									<v-textarea v-else label="Description*" readonly dense outlined required :value="item.description"></v-textarea>
 								</v-col>
 							</v-col>
@@ -103,26 +103,10 @@ export default Vue.extend({
 			return this.item.aliases.join(", ");
 		},
 		async saveNewItem() {
-			/*
-			const aliasString = this.aliasString.replace(" ", "").split(",");
-			aliasString.map(s => this.item.aliases.push(s));
+			this.item.aliases = this.aliasString.replace(" ", "").split(",");
+			await pushToMongo<IItem>("items", this.item);
 
-			const x = pushToMongo<IItem>("items", this.item);
-			console.log(x);
-
-			// const newItem = new Item();
-			// // newItem.id = this.item._id;
-			// newItem.name = this.item.name;
-			// newItem.aliases = this.item.aliases;
-			// newItem.image = this.item.image;
-			// newItem.encumbrance = this.item.encumbrance;
-			// newItem.description = this.item.description;
-			// newItem.category = this.item.category;
-
-			// // await newItem.save();
-			// ItemSchema.add(newItem);
 			this.$emit("itemAdded", this.item);
-			*/
 		},
 		changeItemImage() {
 			const imageUrl = prompt("Enter the URL for the new image", this.item.image);
