@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid>
-		<v-toolbar dark>
+		<!-- <v-toolbar dark>
 			<v-toolbar-title>Search</v-toolbar-title>
 			<v-text-field class="mx-4" v-model="search" clearable rounded flat hide-details label="Search for an NPC by ther name or affiliation" solo-inverted></v-text-field>
 		</v-toolbar>
@@ -38,31 +38,31 @@
 					</v-card-actions>
 				</v-card>
 			</v-col>
-		</v-row>
+		</v-row> -->
 	</v-container>
 </template>
 
 <script lang="ts">
-import { NPC_LIST, Npc, INpc } from "@/types/Npcs/Npc";
-import Vue from "vue";
-export default Vue.extend({
-	name: "HookBuilder",
-	components: {
-		// VueCodeHighlight,
-		// DiscordEmbed,
-	},
-	data: () => {
-		return {
-			search: "",
-			npcs: [...NPC_LIST.map(e => new Npc(e))],
-		};
-	},
-	computed: {
-		filteredNpcs(): INpc[] {
-			return this.npcs.filter((npc: Npc) => {
-				return npc.tags.some(t => t.toLowerCase().includes(this.search.toLowerCase()));
-			});
-		},
-	},
-});
+// import { NPC_LIST, Npc, INpc } from "@/types/Npcs/Npc";
+// import Vue from "vue";
+// export default Vue.extend({
+// 	name: "HookBuilder",
+// 	components: {
+// 		// VueCodeHighlight,
+// 		// DiscordEmbed,
+// 	},
+// 	data: () => {
+// 		return {
+// 			search: "",
+// 			npcs: [...NPC_LIST.map(e => new Npc(e))],
+// 		};
+// 	},
+// 	computed: {
+// 		filteredNpcs(): INpc[] {
+// 			return this.npcs.filter((npc: Npc) => {
+// 				return npc.tags.some(t => t.toLowerCase().includes(this.search.toLowerCase()));
+// 			});
+// 		},
+// 	},
+// });
 </script>
