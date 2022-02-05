@@ -3,12 +3,13 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface INpc extends Document {
-	id?: string;
+	_id?: string;
 	name: string;
 	aliases?: string[];
 	avatar?: string;
 	quotes?: [];
 	description?: string;
+	isCustomNpc: boolean;
 	combatProperties?: {
 		hitpoints: number;
 		armorClass: number;
@@ -28,12 +29,13 @@ export interface INpc extends Document {
 
 export const NpcSchema: Schema = new Schema(
 	{
+		_id: String,
 		name: String,
 		avatar: String,
 		aliases: [String],
-
 		quotes: [],
 		description: String,
+		isCustomNpc: { type: Boolean, default: false },
 		combatProperties: {
 			hitpoints: { type: Number, default: 30 },
 			armorClass: { type: Number, default: 7 },

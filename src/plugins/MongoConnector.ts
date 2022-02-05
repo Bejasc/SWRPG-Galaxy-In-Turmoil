@@ -41,12 +41,12 @@ export async function pushToMongo<T>(collection: allowedMongoCollections, docume
 		collection: collection,
 		database: mongoDatabase,
 		dataSource: mongoSource,
-		document: JSON.stringify(document),
+		document: document,
 	});
 
 	const response = await axios({
 		method: "post",
-		url: `${corsBypass}https://data.mongodb-api.com/app/data-ogatg/endpoint/data/beta/action/find`,
+		url: `${corsBypass}https://data.mongodb-api.com/app/data-ogatg/endpoint/data/beta/action/insertOne`,
 		headers: {
 			// "Access-Control-Request-Headers": "*",
 			"Content-Type": "application/json",
@@ -56,6 +56,6 @@ export async function pushToMongo<T>(collection: allowedMongoCollections, docume
 		data: data,
 	});
 
-	const result: T[] = JSON.parse(JSON.stringify(response.data.documents));
+	const result: T[] = response.data.documents;
 	return result;
 }
