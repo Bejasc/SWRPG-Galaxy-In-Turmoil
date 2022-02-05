@@ -13,7 +13,7 @@ export interface IItem extends Document {
 
 export const ItemSchema: Schema = new Schema(
 	{
-		id: String,
+		_id: String,
 		name: String,
 		aliases: [String],
 		category: String,
@@ -25,5 +25,3 @@ export const ItemSchema: Schema = new Schema(
 );
 
 export const Item = mongoose.model<IItem>("item", ItemSchema);
-
-const x = new Item();

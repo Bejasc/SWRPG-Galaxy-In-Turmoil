@@ -51,7 +51,7 @@
 import Loader from "@/components/Loader.vue";
 import ItemFullView from "@/components/ItemFullView.vue";
 import { getFromMongo } from "@/plugins/MongoConnector";
-import { Item } from "@/types/Item";
+import { IItem } from "@/types/Item";
 import Vue from "vue";
 export default Vue.extend({
 	name: "HookBuilder",
@@ -65,7 +65,7 @@ export default Vue.extend({
 			items: [] as IItem[],
 			showLoader: false,
 			showFullView: false,
-			selectedItem: Item,
+			selectedItem: {} as IItem,
 			allowEdit: false,
 		};
 	},
@@ -80,7 +80,6 @@ export default Vue.extend({
 			this.showLoader = false;
 		},
 		openFullView(item: IItem, allowEdit = false) {
-			if (!item) item = new Item();
 			this.selectedItem = item;
 			this.showFullView = true;
 			this.allowEdit = allowEdit;

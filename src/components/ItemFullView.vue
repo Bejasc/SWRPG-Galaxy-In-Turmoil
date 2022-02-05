@@ -84,7 +84,8 @@
 </style>
 
 <script lang="ts">
-import { Item, ItemSchema } from "@/types/Item";
+import { pushToMongo } from "@/plugins/MongoConnector";
+import { Item, IItem } from "@/types/Item";
 import Vue from "vue";
 export default Vue.extend({
 	props: {
@@ -103,21 +104,26 @@ export default Vue.extend({
 			return this.item.aliases.join(", ");
 		},
 		async saveNewItem() {
+			/*
 			const aliasString = this.aliasString.replace(" ", "").split(",");
 			aliasString.map(s => this.item.aliases.push(s));
 
-			const newItem = new Item();
-			// newItem.id = this.item._id;
-			newItem.name = this.item.name;
-			newItem.aliases = this.item.aliases;
-			newItem.image = this.item.image;
-			newItem.encumbrance = this.item.encumbrance;
-			newItem.description = this.item.description;
-			newItem.category = this.item.category;
+			const x = pushToMongo<IItem>("items", this.item);
+			console.log(x);
 
-			// await newItem.save();
-			ItemSchema.add(newItem);
+			// const newItem = new Item();
+			// // newItem.id = this.item._id;
+			// newItem.name = this.item.name;
+			// newItem.aliases = this.item.aliases;
+			// newItem.image = this.item.image;
+			// newItem.encumbrance = this.item.encumbrance;
+			// newItem.description = this.item.description;
+			// newItem.category = this.item.category;
+
+			// // await newItem.save();
+			// ItemSchema.add(newItem);
 			this.$emit("itemAdded", this.item);
+			*/
 		},
 		changeItemImage() {
 			const imageUrl = prompt("Enter the URL for the new image", this.item.image);
