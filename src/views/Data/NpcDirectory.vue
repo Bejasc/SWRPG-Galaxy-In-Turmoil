@@ -10,10 +10,10 @@
 		</v-toolbar>
 		<v-row>
 			<v-col v-for="item in filteredItems" :key="item._id" cols="2">
-				<v-card>
+				<v-card @click="openFullView(item)">
 					<v-img :src="item.avatar" :lazy-src="item.avatar" contain class="white--text" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
 						<!-- <v-icon class="float-right pa-3">mdi-dots-vertical</v-icon> -->
-						<div v-if="!item.isCustomNpc" class="float-left pa-3">
+						<div v-if="item.verified" class="float-left pa-3">
 							<v-tooltip bottom>
 								<template v-slot:activator="{ on, attrs }">
 									<v-icon color="#91FFFF" v-bind="attrs" v-on="on">mdi-check-decagram</v-icon>

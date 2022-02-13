@@ -7,12 +7,32 @@
 				</v-card-title>
 				<v-card-text>
 					<v-container>
+						<v-row dense v-if="allowEdit && !item.verified">
+							<v-col cols="10">
+								<v-select
+									label="Create from Template"
+									clearable
+									outlined
+									dense
+									return-object
+									:items="templateNpcs"
+									item-text="name"
+									v-model="selectedTemplate"
+								></v-select>
+							</v-col>
+							<v-col cols="2">
+								<v-btn :disabled="!selectedTemplate" @click="generateNpc">Generate</v-btn>
+							</v-col>
+						</v-row>
+						<v-divider></v-divider>
+
 						<v-row class="pt-4">
 							<v-col sm="8">
 								<v-col sm="8">
 									<v-text-field v-model="item.name" v-if="allowEdit" label="Name*" outlined dense required></v-text-field>
 									<v-text-field v-else label="Name*" readonly outlined dense :value="item.name"></v-text-field>
 								</v-col>
+
 								<v-col sm="12">
 									<v-textarea v-model="item.description" v-if="allowEdit" label="Description" dense required outlined></v-textarea>
 									<v-textarea v-else label="Description*" readonly dense outlined required :value="item.description"></v-textarea>
@@ -39,7 +59,7 @@
 					<v-btn color="blue darken-1" text @click="$emit('closeFullView')">
 						Close
 					</v-btn>
-					<v-btn v-if="allowEdit" color="green darken-1" text @click="saveNewItem()">
+					<v-btn v-if="allowEdit" color="green darken-1" :disabled="!item.name" text @click="saveNewItem()">
 						Save
 					</v-btn>
 					<!-- <v-btn color="blue darken-1" text @click="show = false">
@@ -63,7 +83,8 @@
 
 <script lang="ts">
 import { pushToMongo } from "@/plugins/MongoConnector";
-import { INpc, Npc } from "@/types/SwrpgTypes/Npc";
+import { generateRandomName, getRandomTrooperDesignation, StarWarsNametype } from "@/plugins/StarWarsNameGen";
+import { INpc, INpcTemplate, Npc, NpcTemplates } from "@/types/SwrpgTypes/Npc";
 import Vue from "vue";
 export default Vue.extend({
 	props: {
@@ -74,19 +95,44 @@ export default Vue.extend({
 	data: () => {
 		return {
 			aliasString: "",
+			templateNpcs: NpcTemplates,
+			selectedTemplate: {} as INpcTemplate,
+			nameLists: [],
 		};
 	},
 	methods: {
 		async saveNewItem() {
-			this.item.isCustomNpc = true;
+			this.$parent.showLoader = true;
+
+			this.item.verified = false;
 			await pushToMongo<INpc>("npcs", this.item);
 
 			this.$emit("itemAdded", this.item);
+			this.$parent.showLoader = false;
 		},
 		changeItemImage() {
 			const imageUrl = prompt("Enter the URL for the new image", this.item.avatar);
 			if (imageUrl != null) this.item.avatar = imageUrl;
 		},
+		async generateNpc() {
+			//this.item.name = getRandomTrooperDesignation(StarWarsNametype.TrooperTK);
+			this.$parent.showLoader = true;
+
+			const name = await generateRandomName(this.selectedTemplate.nameType);
+			this.item.name = name;
+
+			this.item.description = this.selectedTemplate.description;
+
+			if (this.selectedTemplate.avatars?.length > 0) {
+				const randomImage = this.selectedTemplate.avatars[Math.floor(Math.random() * this.selectedTemplate.avatars.length)];
+				this.item.avatar = randomImage;
+			}
+
+			this.$parent.showLoader = false;
+		},
+	},
+	mounted() {
+		console.log(this.templateNpcs);
 	},
 });
 </script>

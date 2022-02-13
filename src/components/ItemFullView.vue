@@ -61,7 +61,7 @@
 					<v-btn color="blue darken-1" text @click="$emit('closeFullView')">
 						Close
 					</v-btn>
-					<v-btn v-if="allowEdit" color="green darken-1" text @click="saveNewItem()">
+					<v-btn v-if="allowEdit" color="green darken-1" :disabled="!item.name || !item.category || !item.encumbrance" text @click="saveNewItem()">
 						Save
 					</v-btn>
 					<!-- <v-btn color="blue darken-1" text @click="show = false">
@@ -104,6 +104,7 @@ export default Vue.extend({
 		},
 		async saveNewItem() {
 			this.item.aliases = this.aliasString.replace(" ", "").split(",");
+			if (this.item.aliases.length == 0) this.item.aliases.push(this.item.name.toLowerCase().replace(" ", ""));
 			await pushToMongo<IItem>("items", this.item);
 
 			this.$emit("itemAdded", this.item);
