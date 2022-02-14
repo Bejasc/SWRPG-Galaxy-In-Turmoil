@@ -1,5 +1,6 @@
-import { JsonForms } from "@jsonforms/vue2";
+import { Document } from "mongoose";
 import axios from "axios";
+import { EJSON } from "bson";
 
 type allowedMongoCollections = "items" | "locations" | "skills" | "npcs";
 
@@ -37,12 +38,17 @@ export async function pushToMongo<T>(collection: allowedMongoCollections, docume
 	const mongoSource: string = process.env.VUE_APP_MONGO_SOURCE ?? "NOT PROVIDED";
 	const mongoDatabase: string = process.env.VUE_APP_MONGO_DB ?? "NOT PROVIDED";
 
-	const data = JSON.stringify({
+	const data = EJSON.stringify({
 		collection: collection,
 		database: mongoDatabase,
 		dataSource: mongoSource,
 		document: document,
 	});
+
+	const body = JSON.parse(data);
+
+	const idObj = { $oid: document._id };
+	body.document._id = idObj;
 
 	const response = await axios({
 		method: "post",
@@ -53,7 +59,7 @@ export async function pushToMongo<T>(collection: allowedMongoCollections, docume
 			"Access-Control-Allow-Origin": "*",
 			"api-key": mongoApiKey,
 		},
-		data: data,
+		data: EJSON.stringify(body),
 	});
 
 	const result: T[] = response.data.documents;
