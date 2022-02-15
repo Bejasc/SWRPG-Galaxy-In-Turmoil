@@ -12,6 +12,20 @@
 			<v-col v-for="item in filteredItems" :key="item._id" cols="2">
 				<v-card @click="openFullView(item)">
 					<v-img :src="item.avatar" :lazy-src="item.avatar" contain class="white--text" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
+						<div class="float-right pa-3">
+							<v-menu bottom left>
+								<template v-slot:activator="{ on, attrs }">
+									<v-btn dark icon v-bind="attrs" v-on="on">
+										<v-icon>mdi-dots-vertical</v-icon>
+									</v-btn>
+								</template>
+
+								<v-list>
+									<v-list-item @click="copySpeakCommandToClipboard(item)"><v-list-item-title>Copy Speak Command</v-list-item-title></v-list-item>
+								</v-list>
+							</v-menu>
+						</div>
+
 						<!-- <v-icon class="float-right pa-3">mdi-dots-vertical</v-icon> -->
 						<div v-if="item.verified" class="float-left pa-3">
 							<v-tooltip bottom>
@@ -49,6 +63,7 @@
 		</v-row>
 		<npc-full-view :show="showFullView" :item="selectedNpc" :allowEdit="allowEdit" @itemAdded="addItem($event)" @closeFullView="closeView()"></npc-full-view>
 		<loader :showLoader="showLoader" />
+		<v-snackbar v-model="snackbar" timeout="4000"> {{ snackbarText }}</v-snackbar>
 	</v-container>
 </template>
 
@@ -71,6 +86,8 @@ export default Vue.extend({
 			showLoader: false,
 			selectedNpc: {} as INpc,
 			allowEdit: false,
+			snackbar: false,
+			snackbarText: "",
 		};
 	},
 	mounted() {
@@ -99,6 +116,11 @@ export default Vue.extend({
 			this.showFullView = false;
 
 			this.items.push(item);
+		},
+		copySpeakCommandToClipboard(item: INpc) {
+			this.snackbar = true;
+			this.snackbarText = `${item.name} - Speak Command copied to clipboard`;
+			navigator.clipboard.writeText(`^!npc ${item._id} `);
 		},
 	},
 	computed: {
