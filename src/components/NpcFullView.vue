@@ -56,14 +56,23 @@
 					<small style="opacity:0.2">NPC ID: {{ item._id }}</small>
 
 					<v-spacer></v-spacer>
-					<v-btn color="blue darken-1" text @click="$emit('closeFullView')">
+					<v-btn color="red darken-1" text @click="$emit('closeFullView')">
 						Close
 					</v-btn>
+
+					<v-tooltip top>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn color="yellow darken-1" :disabled="!item.name" text @click="copyOneShot()" v-bind="attrs" v-on="on">
+								Copy One-shot
+							</v-btn>
+						</template>
+						<span style="text-align:center"
+							>Copy One-shot command to Clipboard. Add your message in Discord.<br />A 'One-Shot' NPC is not saved in the database, but can speak like the regular NPC
+							command.</span
+						>
+					</v-tooltip>
 					<v-btn v-if="allowEdit" color="green darken-1" :disabled="!item.name" text @click="saveNewItem()">
 						Save NPC
-					</v-btn>
-					<v-btn color="yellow darken-1" :disabled="!item.name" text @click="copyOneShot()">
-						Copy One-shot
 					</v-btn>
 					<!-- <v-btn color="blue darken-1" text @click="show = false">
 						Save
@@ -139,6 +148,7 @@ export default Vue.extend({
 			navigator.clipboard.writeText(
 				`^!os "${this.item.name}" "${this.item.avatar ?? "https://cdn.discordapp.com/attachments/864064937521184788/864476989196468264/badge_random.png"}"\n`,
 			);
+			this.$emit("closeFullView");
 		},
 	},
 	mounted() {
