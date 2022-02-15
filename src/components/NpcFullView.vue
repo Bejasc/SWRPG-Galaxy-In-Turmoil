@@ -60,7 +60,10 @@
 						Close
 					</v-btn>
 					<v-btn v-if="allowEdit" color="green darken-1" :disabled="!item.name" text @click="saveNewItem()">
-						Save
+						Save NPC
+					</v-btn>
+					<v-btn color="yellow darken-1" :disabled="!item.name" text @click="copyOneShot()">
+						Copy One-shot
 					</v-btn>
 					<!-- <v-btn color="blue darken-1" text @click="show = false">
 						Save
@@ -68,6 +71,7 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
+		<v-snackbar v-model="snackbar" timeout="4000">One-Shot Command copied to clipboard for {{ item.name }}</v-snackbar>
 	</v-row>
 </template>
 
@@ -97,7 +101,7 @@ export default Vue.extend({
 			aliasString: "",
 			templateNpcs: NpcTemplates,
 			selectedTemplate: {} as INpcTemplate,
-			nameLists: [],
+			snackbar: false,
 		};
 	},
 	methods: {
@@ -129,6 +133,12 @@ export default Vue.extend({
 			}
 
 			this.$parent.showLoader = false;
+		},
+		copyOneShot() {
+			this.snackbar = true;
+			navigator.clipboard.writeText(
+				`^!os "${this.item.name}" "${this.item.avatar ?? "https://cdn.discordapp.com/attachments/864064937521184788/864476989196468264/badge_random.png"}"\n`,
+			);
 		},
 	},
 	mounted() {
