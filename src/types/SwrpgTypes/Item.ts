@@ -4,7 +4,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface IItem extends Document {
 	_id: string;
 	name: string;
-	aliases: string[];
+	aliases?: string[];
 	category: string;
 	description: string;
 	image?: string;

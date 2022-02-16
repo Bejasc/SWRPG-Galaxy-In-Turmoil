@@ -58,6 +58,8 @@ export const NpcSchema: Schema = new Schema(
 
 export const Npc = mongoose.model<INpc>("npc", NpcSchema);
 
+//-----------------------
+
 export interface INpcTemplate {
 	name: string;
 	namePrefix?: string;

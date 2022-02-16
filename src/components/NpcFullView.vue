@@ -118,7 +118,7 @@ export default Vue.extend({
 			this.$parent.showLoader = true;
 
 			this.item.verified = false;
-			await pushToMongo<INpc>("npcs", this.item);
+			await pushToMongo<INpc>("npcs", this.item, true);
 
 			this.$emit("itemAdded", this.item);
 			this.$parent.showLoader = false;

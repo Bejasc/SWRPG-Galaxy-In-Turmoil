@@ -55,7 +55,7 @@
 					<!-- <small>*indicates required field</small> -->
 				</v-card-text>
 				<v-card-actions>
-					<small style="opacity:0.2">Item ID: {{ item.name }}</small>
+					<small style="opacity:0.2">Item ID: {{ item._id }}</small>
 
 					<v-spacer></v-spacer>
 					<v-btn color="blue darken-1" text @click="$emit('closeFullView')">
@@ -103,11 +103,22 @@ export default Vue.extend({
 			return this.item.aliases.join(", ");
 		},
 		async saveNewItem() {
-			this.item.aliases = this.aliasString.replace(" ", "").split(",");
-			if (this.item.aliases.length == 0) this.item.aliases.push(this.item.name.toLowerCase().replace(" ", ""));
-			await pushToMongo<IItem>("items", this.item);
+			this.$parent.showLoader = true;
+			const a = this.aliasString.replace(" ", "").split(",");
+
+			console.log(a);
+			this.item.aliases = a;
+			console.log(this.item.aliases);
+			await pushToMongo<IItem>("items", this.item, false);
 
 			this.$emit("itemAdded", this.item);
+			this.$parent.showLoader = false;
+			// this.item.aliases = this.aliasString.replace(" ", "").split(",");
+			// if (this.item.aliases.length == 0) this.item.aliases.push(this.item.name.toLowerCase().replace(" ", ""));
+
+			// await pushToMongo<IItem>("items", this.item);
+
+			// this.$emit("itemAdded", this.item);
 		},
 		changeItemImage() {
 			const imageUrl = prompt("Enter the URL for the new image", this.item.image);

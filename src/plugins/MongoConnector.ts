@@ -32,23 +32,32 @@ export async function getFromMongo<T>(collection: allowedMongoCollections): Prom
 	return result;
 }
 
-export async function pushToMongo<T>(collection: allowedMongoCollections, document: Document): Promise<T[]> {
+export async function pushToMongo<T>(collection: allowedMongoCollections, document: Document, convertObjectId: boolean): Promise<T[]> {
 	const corsBypass = "https://corsanywhere.herokuapp.com/";
 	const mongoApiKey: string = process.env.VUE_APP_MONGO_API_KEY ?? "NOT PROVIDED";
 	const mongoSource: string = process.env.VUE_APP_MONGO_SOURCE ?? "NOT PROVIDED";
 	const mongoDatabase: string = process.env.VUE_APP_MONGO_DB ?? "NOT PROVIDED";
 
-	const data = EJSON.stringify({
-		collection: collection,
-		database: mongoDatabase,
-		dataSource: mongoSource,
-		document: document,
-	});
+	const data = convertObjectId
+		? EJSON.stringify({
+				collection: collection,
+				database: mongoDatabase,
+				dataSource: mongoSource,
+				document: document,
+		  })
+		: JSON.stringify({
+				collection: collection,
+				database: mongoDatabase,
+				dataSource: mongoSource,
+				document: document,
+		  });
 
 	const body = JSON.parse(data);
 
-	const idObj = { $oid: document._id };
-	body.document._id = idObj;
+	if (convertObjectId) {
+		const idObj = { $oid: document._id };
+		body.document._id = idObj;
+	}
 
 	const response = await axios({
 		method: "post",
@@ -59,7 +68,7 @@ export async function pushToMongo<T>(collection: allowedMongoCollections, docume
 			"Access-Control-Allow-Origin": "*",
 			"api-key": mongoApiKey,
 		},
-		data: EJSON.stringify(body),
+		data: convertObjectId ? EJSON.stringify(body) : JSON.stringify(body),
 	});
 
 	const result: T[] = response.data.documents;
