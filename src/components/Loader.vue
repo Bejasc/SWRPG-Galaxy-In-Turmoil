@@ -1,16 +1,18 @@
 <template>
 	<v-dialog v-model="showLoader" fullscreen>
 		<v-container :v-model="showLoader" fill-height>
-			<v-layout text-xs-center style="height: 100px;">
-				<!-- <v-flex xs9 offset-1> -->
-				<v-layout column align-center justify-center>
-					<v-progress-circular :size="50" color="amber" indeterminate> </v-progress-circular>
-					<div class="ma-4">
-						{{ randomLoadMessage() }}
-					</div>
+			<v-overlay color="black">
+				<v-layout text-xs-center style="height: 100px;">
+					<!-- <v-flex xs9 offset-1> -->
+					<v-layout column align-center justify-center>
+						<v-progress-circular :size="50" color="amber" indeterminate> </v-progress-circular>
+						<div class="ma-4">
+							{{ randomLoadMessage() }}
+						</div>
+					</v-layout>
+					<!-- </v-flex> -->
 				</v-layout>
-				<!-- </v-flex> -->
-			</v-layout>
+			</v-overlay>
 		</v-container>
 	</v-dialog>
 </template>

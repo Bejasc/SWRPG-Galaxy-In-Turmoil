@@ -27,27 +27,97 @@
 						<v-divider></v-divider>
 
 						<v-row class="pt-4">
-							<v-col sm="8">
-								<v-col sm="8">
-									<v-text-field v-model="item.name" v-if="allowEdit" label="Name*" outlined dense required></v-text-field>
-									<v-text-field v-else label="Name*" readonly outlined dense :value="item.name"></v-text-field>
-								</v-col>
+							<v-expansion-panels accordion>
+								<v-expansion-panel>
+									<v-expansion-panel-header color="grey darken-3">General Properties</v-expansion-panel-header>
+									<v-expansion-panel-content>
+										<v-col sm="8">
+											<v-col sm="8">
+												<v-text-field v-model="item.name" v-if="allowEdit" label="Name*" outlined dense required></v-text-field>
+												<v-text-field v-else label="Name*" readonly outlined dense :value="item.name"></v-text-field>
+											</v-col>
 
-								<v-col sm="12">
-									<v-textarea v-model="item.description" v-if="allowEdit" label="Description" dense required outlined></v-textarea>
-									<v-textarea v-else label="Description*" readonly dense outlined required :value="item.description"></v-textarea>
-								</v-col>
-							</v-col>
-							<v-col sm="4">
-								<img :src="item.avatar" v-if="item.avatar" class="itemThumbnail" @click="changeItemImage()" />
-								<img
-									v-else
-									src="https://cdn.discordapp.com/attachments/864064937521184788/864476989196468264/badge_random.png"
-									alt=""
-									class="itemThumbnail"
-									@click="changeItemImage()"
-								/>
-							</v-col>
+											<v-col sm="12">
+												<v-textarea v-model="item.description" v-if="allowEdit" label="Description" dense required outlined rows="3"></v-textarea>
+												<v-textarea v-else label="Description*" readonly dense outlined required :value="item.description" rows="3"></v-textarea>
+											</v-col>
+										</v-col>
+										<v-col sm="4">
+											<img :src="item.avatar" v-if="item.avatar" class="itemThumbnail" @click="changeItemImage()" />
+											<img
+												v-else
+												src="https://cdn.discordapp.com/attachments/864064937521184788/864476989196468264/badge_random.png"
+												alt=""
+												class="itemThumbnail"
+												@click="changeItemImage()"
+											/>
+										</v-col>
+									</v-expansion-panel-content>
+								</v-expansion-panel>
+							</v-expansion-panels>
+						</v-row>
+
+						<v-row v-if="item.combatProperties">
+							<v-expansion-panels accordion>
+								<v-expansion-panel>
+									<v-expansion-panel-header color="red darken-4">Combat Properties</v-expansion-panel-header>
+									<v-expansion-panel-content>
+										<v-col sm="6">
+											Weapon Type
+											<v-select :items="weaponTypes" :disabled="!allowEdit" v-model="item.combatProperties.weaponType"></v-select>
+										</v-col>
+										<v-col sm="6">
+											Hitpoints
+											<v-text-field type="number" :disabled="!allowEdit" v-model="item.combatProperties.hitpoints"></v-text-field>
+										</v-col>
+										<v-col sm="12">
+											Weapon Skill
+											<v-slider
+												:readonly="!allowEdit"
+												v-model="item.combatProperties.weaponSkill"
+												:tick-labels="weaponSkillLabels"
+												color="yellow darken-4"
+												min="1"
+												max="10"
+												ticks="always"
+												tick-size="8"
+												thumb-label="always"
+											>
+											</v-slider>
+										</v-col>
+										<v-col sm="12">
+											Armor Class
+											<v-slider
+												:readonly="!allowEdit"
+												v-model="item.combatProperties.armorClass"
+												:tick-labels="armorClassLabels"
+												min="4"
+												max="20"
+												ticks="always"
+												tick-size="8"
+												thumb-label="always"
+											>
+											</v-slider>
+										</v-col>
+										<v-col sm="6">
+											Damage
+											<v-range-slider class="pt-3" :readonly="!allowEdit" @change="changeDamageSlider($event)" min="1" max="20" color="red" thumb-label>
+											</v-range-slider>
+										</v-col>
+										<v-col sm="3">
+											Hits
+											<v-slider class="pt-3" :readonly="!allowEdit" v-model="item.combatProperties.hits" min="1" max="5" color="red" thumb-label> </v-slider>
+										</v-col>
+										<v-col sm="3">
+											Damage Type
+											<v-select dense :items="damageTypes" :disabled="!allowEdit" v-model="item.combatProperties.damageType"></v-select>
+										</v-col>
+										<v-col sm="3">
+											<small>Maximum Damage Output: {{ maxDamageOutput() }}</small>
+										</v-col>
+									</v-expansion-panel-content>
+								</v-expansion-panel>
+							</v-expansion-panels>
 						</v-row>
 					</v-container>
 					<!-- <small>*indicates required field</small> -->
@@ -60,7 +130,7 @@
 						Close
 					</v-btn>
 
-					<v-tooltip top>
+					<v-tooltip top v-if="allowEdit">
 						<template v-slot:activator="{ on, attrs }">
 							<v-btn color="yellow darken-1" :disabled="!item.name" text @click="copyOneShot()" v-bind="attrs" v-on="on">
 								Copy One-shot
@@ -96,7 +166,7 @@
 
 <script lang="ts">
 import { pushToMongo } from "@/plugins/MongoConnector";
-import { generateRandomName, getRandomTrooperDesignation, StarWarsNametype } from "@/plugins/StarWarsNameGen";
+import { generateRandomName } from "@/plugins/StarWarsNameGen";
 import { INpc, INpcTemplate, Npc, NpcTemplates } from "@/types/SwrpgTypes/Npc";
 import Vue from "vue";
 export default Vue.extend({
@@ -109,11 +179,22 @@ export default Vue.extend({
 		return {
 			aliasString: "",
 			templateNpcs: NpcTemplates,
-			selectedTemplate: {} as INpcTemplate,
+			selectedTemplate: null,
 			snackbar: false,
+			weaponSkillLabels: ["", "Unskilled", "", "Novice", "", "Skilled", "", "Master", "", "Legend"],
+			armorClassLabels: ["", "", "Easy", "", "", "", "Medium", "", "", "", "Hard", "", "", "Very Hard", "", "", "Legend"],
+			weaponTypes: ["Pistol", "Rifle", "Melee"],
+			damageTypes: ["Ion", "Energy", "Fire", "Kinetic"],
 		};
 	},
 	methods: {
+		changeDamageSlider(val) {
+			this.item.combatProperties.damage.min = val[0];
+			this.item.combatProperties.damage.max = val[1];
+		},
+		maxDamageOutput() {
+			return this.item.combatProperties.hits * this.item.combatProperties?.damage.max;
+		},
 		async saveNewItem() {
 			this.$parent.showLoader = true;
 
