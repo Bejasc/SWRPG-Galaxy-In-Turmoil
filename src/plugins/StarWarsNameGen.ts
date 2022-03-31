@@ -1,17 +1,6 @@
 import axios from "axios";
 
-export enum StarWarsNametype {
-	Male = "https://donjon.bin.sh/name/rpc-name.fcgi?type=Star Wars Male",
-	Female = "https://donjon.bin.sh/name/rpc-name.fcgi?type=Star Wars Female",
-	Twilek = "https://donjon.bin.sh/name/rpc-name.fcgi?type=Twilek",
-	Rodian = "https://donjon.bin.sh/name/rpc-name.fcgi?type=Rodian",
-	Trandoshan = "https://donjon.bin.sh/name/rpc-name.fcgi?type=Trandoshan",
-	Wookiee = "https://donjon.bin.sh/name/rpc-name.fcgi?type=Wookiee",
-	Droid = "https://donjon.bin.sh/name/rpc-name.fcgi?type=Droid",
-	Hutt = "https://donjon.bin.sh/name/rpc-name.fcgi?type=Hutt",
-	Duros = "https://donjon.bin.sh/name/rpc-name.fcgi?type=Duros",
-	TrooperTK = "TK",
-}
+export type StarWarsNametype = "Male" | "Female" | "Twilek" | "Rodian" | "Trandoshan" | "Wookiee" | "Droid" | "Hutt" | "Duros" | "TrooperTK";
 
 function padLeadingZeros(num: string, size: number): string {
 	let s = num + "";
@@ -27,27 +16,17 @@ export function getRandomTrooperDesignation(type: StarWarsNametype): string {
 }
 
 export async function generateRandomName(type: StarWarsNametype, num = 1, includeLastName = true): Promise<string> {
-	if (type === StarWarsNametype.TrooperTK) return getRandomTrooperDesignation(type);
+	const swrpgApi: string = process.env.VUE_APP_SWRPG_API ?? "NOT PROVIDED";
 
-	const corsBypass = "https://corsanywhere.herokuapp.com/";
+	const url = swrpgApi + `namegen?nameType=${type}`;
 
-	const url = `${corsBypass}${type}&n=${num}`;
-
-	const x = await axios({
-		method: "GET",
+	const response = await axios({
+		method: "get",
 		url,
 		headers: {
-			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/text",
 		},
 	});
 
-	let name = await x.data;
-
-	if (type === StarWarsNametype.Twilek) {
-		//Twileks only have a 1 part name, so generate a random male name and take the surname
-		const extraName = await generateRandomName(StarWarsNametype.Male);
-		name += " " + extraName.split(" ")[1];
-	}
-
-	return name;
+	return response.data;
 }

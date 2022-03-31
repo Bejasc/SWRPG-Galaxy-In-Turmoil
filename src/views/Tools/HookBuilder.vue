@@ -15,77 +15,41 @@
 						</span>
 					</discord-embed>
 				</v-row>
-
-				<v-dialog v-model="dialog" width="500">
-					<template v-slot:activator="{ on, attrs }">
-						<v-row justify="space-around">
-							<v-btn color="success" dark v-bind="attrs" v-on="on" v-on:click="saveHook()">
-								Get Hook Code
-							</v-btn>
-							<v-btn color="primary" dark v-on:click="clearForm()">
-								Clear Form
-							</v-btn>
-						</v-row>
-					</template>
-
-					<v-card>
-						<vue-code-highlight language="json">
-							<pre>{{ hookCommand }}</pre>
-						</vue-code-highlight>
-
-						<v-card-actions>
-							<v-btn color="red" text @click="dialog = false">
-								Close
-							</v-btn>
-							<v-btn color="blue" text @click="copyToClipboard">
-								Copy to Clipboard
-							</v-btn>
-						</v-card-actions>
-						<v-snackbar v-model="snackbar" :timeout="timeout"> {{ hook.title }} was copied to clipboard </v-snackbar>
-					</v-card>
-				</v-dialog>
+				<v-row justify="space-around" class="pa-4">
+					<v-btn color="success" dark v-on:click="copyToClipboard()" v-bind:disabled="hook.title.length == 0 || hook.description.length == 0">
+						Get Hook Code
+					</v-btn>
+					<v-btn color="primary" dark v-on:click="clearForm()">
+						Clear Form
+					</v-btn>
+				</v-row>
 			</v-form>
+			<v-snackbar v-model="snackbar" timeout="4000"> {{ hook.title }} was copied to clipboard </v-snackbar>
 		</v-card>
 	</v-col>
 </template>
 
 <script>
 import { Hook } from "@/types/Hook";
-import { component as VueCodeHighlight } from "vue-code-highlight";
 import DiscordEmbed from "../../components/Discord/DiscordEmbed.vue";
 export default {
 	name: "HookBuilder",
 	components: {
-		VueCodeHighlight,
 		DiscordEmbed,
 	},
 	data: () => {
 		return {
 			hook: new Hook(),
-			dialog: false,
-			hookCommand: "",
 			snackbar: false,
-			timeout: 4000,
 		};
 	},
 	methods: {
-		saveHook() {
-			const hookText = this.hook.toCommand();
-			this.hookCommand = hookText;
-			console.log(hookText);
-		},
 		copyToClipboard() {
 			this.snackbar = true;
-			navigator.clipboard.writeText(this.hookCommand);
+			navigator.clipboard.writeText(this.hook.toCommand());
 		},
 		clearForm() {
 			this.hook = new Hook();
-		},
-	},
-	filters: {
-		pretty: function(value) {
-			if (!value) return;
-			return JSON.stringify(JSON.parse(value), null, 2);
 		},
 	},
 };

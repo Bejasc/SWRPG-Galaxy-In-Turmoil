@@ -18,6 +18,8 @@
 				<img :src="selectedImage.url" />
 			</v-overlay>
 		</v-row>
+
+		<loader :showLoader="showLoader"></loader>
 	</v-container>
 	<!-- <v-container fluid>
 		<v-row>
@@ -67,9 +69,10 @@ import Vue from "vue";
 import { deleteBlobByName, getAzureContainer } from "@/plugins/AzureConnector";
 import { AzureImage, IAzureImage } from "@/types/AzureImage";
 import DrpgImage from "@/components/DrpgImage.vue";
+import Loader from "@/components/Loader.vue";
 export default Vue.extend({
 	name: "HookBuilder",
-	components: { DrpgImage },
+	components: { DrpgImage, Loader },
 	data: () => {
 		return {
 			search: "",
@@ -79,6 +82,7 @@ export default Vue.extend({
 			blobs: [] as IAzureImage[],
 			overlay: false,
 			selectedImage: {} as AzureImage,
+			showLoader: false,
 		};
 	},
 	computed: {
@@ -96,6 +100,7 @@ export default Vue.extend({
 		},
 	},
 	mounted() {
+		this.showLoader = true;
 		this.loadBlobs();
 	},
 	methods: {
@@ -103,7 +108,6 @@ export default Vue.extend({
 			this.overlay = false;
 		},
 		openFullView(img: AzureImage) {
-			console.log("a");
 			this.overlay = true;
 			this.selectedImage = img;
 		},
@@ -155,6 +159,7 @@ export default Vue.extend({
 				blobItem = await iter.next();
 			}
 
+			this.showLoader = false;
 			this.blobs = t; //.slice(0, 10);
 		},
 		onFileChange(e: string | undefined) {

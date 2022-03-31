@@ -6,10 +6,18 @@ import Vue from "vue";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
 import dotenv from "dotenv";
-
+import VEmojiPicker from "v-emoji-picker";
+import mongoose, { Document, Schema } from "mongoose";
 dotenv.config();
 
 Vue.config.productionTip = false;
+Vue.use(VEmojiPicker);
+
+import EventMain from "@/components/EventBuilder/EventMain.vue";
+import EventLink from "@/components/EventBuilder/EventLink.vue";
+
+Vue.component("EventMain", EventMain);
+Vue.component("EventLink", EventLink);
 
 new Vue({
 	router,

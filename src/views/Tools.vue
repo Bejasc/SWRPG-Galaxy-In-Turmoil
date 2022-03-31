@@ -1,9 +1,9 @@
 <template>
-	<v-main>
+	<v-main class="ma-2">
 		<ToolSidebar />
 
 		<v-col cols="10" offset="2">
-			<router-view />
+			<router-view class="ma-2" />
 		</v-col>
 	</v-main>
 </template>

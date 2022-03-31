@@ -8,14 +8,14 @@ export interface IHook {
 
 export class Hook implements IHook {
 	title: string;
-	thumbnail: string | undefined;
-	image: string | undefined;
+	thumbnail: string;
+	image: string;
 	description: string;
 
 	constructor() {
 		this.title = "";
-		this.thumbnail = undefined;
-		this.image = undefined;
+		this.thumbnail = "";
+		this.image = "";
 		this.description = "";
 	}
 
@@ -24,8 +24,8 @@ export class Hook implements IHook {
 "
 ${this.description}	
 "
-${this.image ? `img:"${this.image}"` : ""}
-${this.thumbnail ? `avatar:"${this.thumbnail}"` : ""}
+${this.image.length > 0 ? `img:"${this.image}"` : ""}
+${this.thumbnail.length > 0 ? `avatar:"${this.thumbnail}"` : ""}
 `;
 	}
 }
