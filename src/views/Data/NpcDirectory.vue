@@ -70,7 +70,7 @@
 <script lang="ts">
 import Loader from "@/components/Loader.vue";
 import NpcFullView from "@/components/NpcFullView.vue";
-import { getFromMongo } from "@/plugins/MongoConnector";
+import { getData, getFromMongo } from "@/plugins/MongoConnector";
 import { INpc, Npc } from "@/types/SwrpgTypes/Npc";
 import Vue from "vue";
 export default Vue.extend({
@@ -97,7 +97,7 @@ export default Vue.extend({
 		async loadItemsFromMongo() {
 			this.showLoader = true;
 			this.items = [];
-			this.items = await getFromMongo<INpc>("npcs");
+			this.items = await getData<INpc>("npcs");
 			this.showLoader = false;
 		},
 		getCombatDescription(npc: INpc) {

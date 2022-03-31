@@ -72,7 +72,7 @@ export interface INpcTemplate {
 export const NpcTemplates: INpcTemplate[] = [
 	{
 		name: "Human Male",
-		nameType: StarWarsNametype.Male,
+		nameType: "Male",
 		description: "A Human Male.",
 		baseArmorClass: 8,
 		avatars: [
@@ -103,7 +103,7 @@ export const NpcTemplates: INpcTemplate[] = [
 	},
 	{
 		name: "Human Female",
-		nameType: StarWarsNametype.Female,
+		nameType: "Female",
 		description: "A Human Female.",
 		baseArmorClass: 7,
 		avatars: [
@@ -124,7 +124,7 @@ export const NpcTemplates: INpcTemplate[] = [
 	},
 	{
 		name: "Rodian",
-		nameType: StarWarsNametype.Rodian,
+		nameType: "Rodian",
 		description: "A Rodian Citizen",
 		baseArmorClass: 7,
 		avatars: [
@@ -150,7 +150,7 @@ export const NpcTemplates: INpcTemplate[] = [
 	},
 	{
 		name: "Twilek",
-		nameType: StarWarsNametype.Twilek,
+		nameType: "Twilek",
 		description: "A Twilek Citizen",
 		baseArmorClass: 9,
 		avatars: [
@@ -195,7 +195,7 @@ export const NpcTemplates: INpcTemplate[] = [
 	},
 	{
 		name: "Duros",
-		nameType: StarWarsNametype.Duros,
+		nameType: "Duros",
 		description: "A Duros Citizen.",
 		baseArmorClass: 8,
 		avatars: [
@@ -211,7 +211,7 @@ export const NpcTemplates: INpcTemplate[] = [
 	},
 	{
 		name: "Trandoshan",
-		nameType: StarWarsNametype.Trandoshan,
+		nameType: "Trandoshan",
 		description: "A Trandoshan Citizen.",
 		baseArmorClass: 10,
 		avatars: [
@@ -230,7 +230,7 @@ export const NpcTemplates: INpcTemplate[] = [
 	{
 		name: "Imperial Soldier",
 		namePrefix: "Trooper",
-		nameType: StarWarsNametype.TrooperTK,
+		nameType: "TrooperTK",
 		description: "A Storm Trooper.",
 		baseArmorClass: 12,
 		avatars: [

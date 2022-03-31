@@ -35,7 +35,7 @@ export class Npc implements INpc {
 	constructor(npc: INpc) {
 		this.name = npc.name ?? "Unknown";
 		this.avatar = npc.avatar ?? "https://cdn.discordapp.com/attachments/864064937521184788/864476989196468264/badge_random.png";
-		this.namePreset = npc.namePreset ?? StarWarsNametype.Male;
+		this.namePreset = npc.namePreset ?? "Male";
 		this.affiliation = npc.affiliation ?? "Neutral";
 		this.combatProperties = npc.combatProperties;
 
@@ -66,39 +66,39 @@ export const NPC_LIST: INpc[] = [
 	{
 		name: "Storm Trooper",
 		avatar: "https://cdn.discordapp.com/attachments/811812736764870678/917272707190652959/FB_IMG_1613449524637.jpg",
-		namePreset: StarWarsNametype.TrooperTK,
+		namePreset: "TrooperTK",
 		affiliation: "Empire",
 	},
 	{
 		name: "Scout Trooper",
 		avatar: "https://cdn.discordapp.com/attachments/811812736764870678/917272781786320968/FB_IMG_1613449505883.jpg",
-		namePreset: StarWarsNametype.TrooperTK,
+		namePreset: "TrooperTK",
 		affiliation: "Empire",
 		metaTags: ["Endor"],
 	},
 	{
 		name: "Snow Trooper",
 		avatar: "https://cdn.discordapp.com/attachments/743332978893258763/934227519593402418/unknown.png",
-		namePreset: StarWarsNametype.TrooperTK,
+		namePreset: "TrooperTK",
 		affiliation: "Empire",
 		metaTags: ["Hoth"],
 	},
 	{
 		name: "Imperial Officer",
 		avatar: "https://cdn.discordapp.com/attachments/811812736764870678/917273250231373834/FB_IMG_1614037607710.jpg",
-		namePreset: StarWarsNametype.Male,
+		namePreset: "Male",
 		affiliation: "Empire",
 	},
 	{
 		name: "Rodian",
 		avatar: "https://cdn.discordapp.com/attachments/743332978893258763/934277675550388334/unknown.png",
-		namePreset: StarWarsNametype.Rodian,
+		namePreset: "Rodian",
 		affiliation: "Neutral",
 	},
 	{
 		name: "Twilek",
 		avatar: "https://cdn.discordapp.com/attachments/743332978893258763/934278050567311380/unknown.png",
-		namePreset: StarWarsNametype.Twilek,
+		namePreset: "Twilek",
 		affiliation: "Neutral",
 	},
 	{

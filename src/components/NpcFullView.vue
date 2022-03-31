@@ -141,7 +141,8 @@
 							command.</span
 						>
 					</v-tooltip>
-					<v-btn v-if="allowEdit" color="green darken-1" :disabled="!item.name" text @click="saveNewItem()">
+					<v-btn v-if="allowEdit" color="green darken-1" disabled text @click="saveNewItem()">
+						<!-- <v-btn v-if="allowEdit" color="green darken-1"  :disabled="!item.name" text @click="saveNewItem()"> -->
 						Save NPC
 					</v-btn>
 					<!-- <v-btn color="blue darken-1" text @click="show = false">

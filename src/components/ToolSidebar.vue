@@ -63,19 +63,23 @@
 				</v-list>
 			</v-navigation-drawer>
 		</v-col>
+		<v-snackbar v-model="snackbar" timeout="4000">This option is tempoarily disabled</v-snackbar>
 	</v-row>
 </template>
 
 <script>
 import router from "@/router";
 export default {
-	data() {
+	data: () => {
 		return {
+			snackbar: false,
+			snackbarMessage: "Tempoarily Disabled",
 			datasets: [
 				{
 					text: "Items",
 					click: function() {
-						router.push({ path: "/data/items" });
+						alert("This item is tempoarily disabled");
+						//router.push({ path: "/data/items" });
 					},
 				},
 				{
@@ -111,7 +115,8 @@ export default {
 					text: "Image Library",
 					icon: "mdi-image",
 					click: function() {
-						router.push({ path: "/tools/images" });
+						alert("This item is tempoarily disabled");
+						//router.push({ path: "/tools/images" });
 					},
 				},
 			],
@@ -134,7 +139,7 @@ export default {
 				{
 					text: "Event Images",
 					click: function() {
-						router.push({ path: "/tools/resources/images" });
+						//router.push({ path: "/tools/resources/images" });
 					},
 				},
 			],

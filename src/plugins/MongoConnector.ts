@@ -4,36 +4,36 @@ import { EJSON } from "bson";
 
 type allowedMongoCollections = "items" | "locations" | "skills" | "npcs";
 
-export async function getFromMongo<T>(collection: allowedMongoCollections): Promise<T[]> {
-	const corsBypass = "https://corsanywhere.herokuapp.com/";
-	const mongoApiKey: string = process.env.VUE_APP_MONGO_API_KEY ?? "NOT PROVIDED";
-	const mongoSource: string = process.env.VUE_APP_MONGO_SOURCE ?? "NOT PROVIDED";
-	const mongoDatabase: string = process.env.VUE_APP_MONGO_DB ?? "NOT PROVIDED";
+export async function getData<T>(collection: allowedMongoCollections, id?: string): Promise<T[]> {
+	const swrpgApi: string = process.env.VUE_APP_SWRPG_API ?? "NOT PROVIDED";
 
-	const data = JSON.stringify({
-		collection: collection,
-		database: mongoDatabase,
-		dataSource: mongoSource,
-	});
+	let url = swrpgApi + collection;
+
+	//if ID provided, add to the request
+	if (id) url += `/${id}`;
 
 	const response = await axios({
-		method: "post",
-		url: `${corsBypass}https://data.mongodb-api.com/app/data-ogatg/endpoint/data/beta/action/find`,
+		method: "get",
+		url,
 		headers: {
-			// "Access-Control-Request-Headers": "*",
 			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*",
-			"api-key": mongoApiKey,
 		},
-		data: data,
 	});
 
-	const result: T[] = JSON.parse(JSON.stringify(response.data.documents));
+	const result: T[] = JSON.parse(JSON.stringify(response.data));
 	return result;
 }
 
+export async function getFromMongo<T>(collection: allowedMongoCollections): Promise<T[]> {
+	console.error("DEPRECATED");
+	return [];
+}
+
 export async function pushToMongo<T>(collection: allowedMongoCollections, document: Document, convertObjectId: boolean): Promise<T[]> {
-	const corsBypass = "https://corsanywhere.herokuapp.com/";
+	console.error("DEPRECATED");
+	return [];
+	/*
+	const corsBypass = CORS_BYPASS;
 	const mongoApiKey: string = process.env.VUE_APP_MONGO_API_KEY ?? "NOT PROVIDED";
 	const mongoSource: string = process.env.VUE_APP_MONGO_SOURCE ?? "NOT PROVIDED";
 	const mongoDatabase: string = process.env.VUE_APP_MONGO_DB ?? "NOT PROVIDED";
@@ -73,4 +73,5 @@ export async function pushToMongo<T>(collection: allowedMongoCollections, docume
 
 	const result: T[] = response.data.documents;
 	return result;
+	*/
 }
