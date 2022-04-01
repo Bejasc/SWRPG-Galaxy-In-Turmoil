@@ -66,7 +66,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { deleteBlobByName, getAzureContainer } from "@/plugins/AzureConnector";
+//import { deleteBlobByName, getAzureContainer } from "@/plugins/AzureConnector";
 import { AzureImage, IAzureImage } from "@/types/AzureImage";
 import DrpgImage from "@/components/DrpgImage.vue";
 import Loader from "@/components/Loader.vue";
@@ -115,7 +115,8 @@ export default Vue.extend({
 			this.blobs = this.blobs.filter(x => x != img);
 
 			console.log(`Deleted ${img.name}`);
-			await deleteBlobByName(img.name);
+			console.error("deleteBlob DEPRECATED");
+			//await deleteBlobByName(img.name);
 		},
 		async bulkDeleteBlobs() {
 			const filteredblobs = this.blobs.filter(x => x.isChecked);
@@ -130,7 +131,10 @@ export default Vue.extend({
 			alert(`Deleted ${counter} images`);
 		},
 		async loadBlobs() {
-			const containerCllient = await getAzureContainer();
+			console.error("loadBlobs DEPRECATED");
+			return;
+			/*
+			//const containerCllient = await getAzureContainer();
 
 			const iter = containerCllient.listBlobsFlat({ includeTags: true });
 			let blobItem = await iter.next();
@@ -161,6 +165,7 @@ export default Vue.extend({
 
 			this.showLoader = false;
 			this.blobs = t; //.slice(0, 10);
+			*/
 		},
 		onFileChange(e: string | undefined) {
 			if (e != undefined) {
