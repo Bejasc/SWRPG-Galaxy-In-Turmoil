@@ -99,7 +99,7 @@ export default Vue.extend({
 			return this.items.filter((item: IItem) => {
 				return (
 					item.name.toLowerCase().includes(this.search.toLowerCase()) ||
-					item.aliases.some(e => e.toLowerCase().includes(this.search.toLowerCase())) ||
+					item.aliases?.some(e => e.toLowerCase().includes(this.search.toLowerCase())) ||
 					item.category.toLowerCase().includes(this.search.toLowerCase())
 				);
 				//return npc.tags.some(t => t.toLowerCase().includes(this.search.toLowerCase()));

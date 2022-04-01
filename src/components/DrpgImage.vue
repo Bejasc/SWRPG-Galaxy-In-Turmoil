@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { updateBlobTags } from "@/plugins/AzureConnector";
+//import { updateBlobTags } from "@/plugins/AzureConnector";
 import { AzureImage } from "@/types/AzureImage";
 import Vue from "vue";
 export default Vue.extend({
@@ -114,7 +114,8 @@ export default Vue.extend({
 				tagRecords[`${e.trim()}`] = e.trim();
 			});
 
-			await updateBlobTags(this.blob.name, tagRecords);
+			console.error("updateTags DEPRECATED");
+			//await updateBlobTags(this.blob.name, tagRecords);
 			this.tagsText = this.blob.displayTags();
 
 			this.dialog = false;

@@ -100,10 +100,10 @@ export default Vue.extend({
 	},
 	methods: {
 		getItemAliases() {
-			return this.item.aliases.join(", ");
+			return this.item.aliases?.join(", ");
 		},
 		async saveNewItem() {
-			this.$parent.showLoader = true;
+			(this.$parent as any).showLoader = true;
 			const a = this.aliasString.replace(" ", "").split(",");
 
 			console.log(a);
@@ -112,7 +112,7 @@ export default Vue.extend({
 			await pushToMongo<IItem>("items", this.item, false);
 
 			this.$emit("itemAdded", this.item);
-			this.$parent.showLoader = false;
+			(this.$parent as any).showLoader = false;
 			// this.item.aliases = this.aliasString.replace(" ", "").split(",");
 			// if (this.item.aliases.length == 0) this.item.aliases.push(this.item.name.toLowerCase().replace(" ", ""));
 

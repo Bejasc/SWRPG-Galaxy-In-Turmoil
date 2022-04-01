@@ -168,6 +168,7 @@
 <script lang="ts">
 import { pushToMongo } from "@/plugins/MongoConnector";
 import { generateRandomName } from "@/plugins/StarWarsNameGen";
+import { IItem } from "@/types/SwrpgTypes/Item";
 import { INpc, INpcTemplate, Npc, NpcTemplates } from "@/types/SwrpgTypes/Npc";
 import Vue from "vue";
 export default Vue.extend({
@@ -180,7 +181,7 @@ export default Vue.extend({
 		return {
 			aliasString: "",
 			templateNpcs: NpcTemplates,
-			selectedTemplate: null,
+			selectedTemplate: {} as INpcTemplate,
 			snackbar: false,
 			weaponSkillLabels: ["", "Unskilled", "", "Novice", "", "Skilled", "", "Master", "", "Legend"],
 			armorClassLabels: ["", "", "Easy", "", "", "", "Medium", "", "", "", "Hard", "", "", "Very Hard", "", "", "Legend"],
@@ -189,21 +190,27 @@ export default Vue.extend({
 		};
 	},
 	methods: {
-		changeDamageSlider(val) {
-			this.item.combatProperties.damage.min = val[0];
-			this.item.combatProperties.damage.max = val[1];
+		changeDamageSlider(val: number[]) {
+			if (this.item.combatProperties) {
+				this.item.combatProperties.damage.min = val[0];
+				this.item.combatProperties.damage.max = val[1];
+			}
 		},
 		maxDamageOutput() {
-			return this.item.combatProperties.hits * this.item.combatProperties?.damage.max;
+			if (this.item.combatProperties) {
+				return this.item.combatProperties?.hits * this.item.combatProperties?.damage.max;
+			} else {
+				return 0;
+			}
 		},
 		async saveNewItem() {
-			this.$parent.showLoader = true;
+			(this.$parent as any).showLoader = true;
 
 			this.item.verified = false;
 			await pushToMongo<INpc>("npcs", this.item, true);
 
 			this.$emit("itemAdded", this.item);
-			this.$parent.showLoader = false;
+			(this.$parent as any).showLoader = false;
 		},
 		changeItemImage() {
 			const imageUrl = prompt("Enter the URL for the new image", this.item.avatar);
@@ -211,19 +218,21 @@ export default Vue.extend({
 		},
 		async generateNpc() {
 			//this.item.name = getRandomTrooperDesignation(StarWarsNametype.TrooperTK);
-			this.$parent.showLoader = true;
+			(this.$parent as any).showLoader = true;
 
-			const name = await generateRandomName(this.selectedTemplate.nameType);
-			this.item.name = name;
+			if (this.selectedTemplate) {
+				const name = await generateRandomName(this.selectedTemplate.nameType);
+				this.item.name = name;
 
-			this.item.description = this.selectedTemplate.description;
+				this.item.description = this.selectedTemplate.description;
 
-			if (this.selectedTemplate.avatars?.length > 0) {
-				const randomImage = this.selectedTemplate.avatars[Math.floor(Math.random() * this.selectedTemplate.avatars.length)];
-				this.item.avatar = randomImage;
+				if (this.selectedTemplate.avatars?.length > 0) {
+					const randomImage = this.selectedTemplate.avatars[Math.floor(Math.random() * this.selectedTemplate.avatars.length)];
+					this.item.avatar = randomImage;
+				}
 			}
 
-			this.$parent.showLoader = false;
+			(this.$parent as any).showLoader = false;
 		},
 		copyOneShot() {
 			this.snackbar = true;
