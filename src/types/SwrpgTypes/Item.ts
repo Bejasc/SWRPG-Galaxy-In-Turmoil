@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export type WeaponType = "Melee" | "Pistol" | "Rifle";
 export type WeaponRange = "Melee" | "Short" | "Medium" | "Long";
@@ -20,7 +20,8 @@ export type ArmorStats = {
 	encumbranceModifier: number;
 };
 
-export interface IItem extends Document {
+export interface IItem {
+	_id: string;
 	name: string;
 	aliases?: string[];
 	image?: string;
@@ -50,7 +51,7 @@ const ItemSchema: Schema = new Schema(
 		tradeInfo: {
 			tradeable: {
 				type: Boolean,
-				default: true,
+				default: false,
 			},
 			buyOptions: {},
 			sellOptions: {},

@@ -84,7 +84,7 @@
 </style>
 
 <script lang="ts">
-import { pushToMongo } from "@/plugins/MongoConnector";
+import { postData } from "@/plugins/MongoConnector";
 import { Item, IItem } from "@/types/SwrpgTypes/Item";
 import Vue from "vue";
 export default Vue.extend({
@@ -109,7 +109,8 @@ export default Vue.extend({
 			console.log(a);
 			this.item.aliases = a;
 			console.log(this.item.aliases);
-			await pushToMongo<IItem>("items", this.item, false);
+
+			await postData<IItem>("items", this.item);
 
 			this.$emit("itemAdded", this.item);
 			(this.$parent as any).showLoader = false;

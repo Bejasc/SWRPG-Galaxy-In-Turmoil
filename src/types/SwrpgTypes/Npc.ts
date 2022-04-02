@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 // import { DamageResistance, DamageType, WeaponRange, WeaponType } from "./Item";
 import { StarWarsNametype } from "@/plugins/StarWarsNameGen";
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-export interface INpc extends Document {
+export interface INpc {
 	_id: string;
 	name: string;
 	aliases?: string[];

@@ -50,7 +50,7 @@
 <script lang="ts">
 import Loader from "@/components/Loader.vue";
 import ItemFullView from "@/components/ItemFullView.vue";
-import { getData, getFromMongo } from "@/plugins/MongoConnector";
+import { getData } from "@/plugins/MongoConnector";
 import { IItem, Item } from "@/types/SwrpgTypes/Item";
 import Vue from "vue";
 export default Vue.extend({

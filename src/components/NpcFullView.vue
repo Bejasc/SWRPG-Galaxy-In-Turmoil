@@ -141,8 +141,8 @@
 							command.</span
 						>
 					</v-tooltip>
-					<v-btn v-if="allowEdit" color="green darken-1" disabled text @click="saveNewItem()">
-						<!-- <v-btn v-if="allowEdit" color="green darken-1"  :disabled="!item.name" text @click="saveNewItem()"> -->
+					<!-- <v-btn v-if="allowEdit" color="green darken-1" disabled text @click="saveNewItem()"> -->
+					<v-btn v-if="allowEdit" color="green darken-1" :disabled="!item.name" text @click="saveNewItem()">
 						Save NPC
 					</v-btn>
 					<!-- <v-btn color="blue darken-1" text @click="show = false">
@@ -168,6 +168,7 @@
 <script lang="ts">
 import { pushToMongo } from "@/plugins/MongoConnector";
 import { generateRandomName } from "@/plugins/StarWarsNameGen";
+import { postData } from "@/plugins/MongoConnector";
 import { IItem } from "@/types/SwrpgTypes/Item";
 import { INpc, INpcTemplate, Npc, NpcTemplates } from "@/types/SwrpgTypes/Npc";
 import Vue from "vue";
@@ -207,7 +208,7 @@ export default Vue.extend({
 			(this.$parent as any).showLoader = true;
 
 			this.item.verified = false;
-			await pushToMongo<INpc>("npcs", this.item, true);
+			await postData<INpc>("npcs", this.item);
 
 			this.$emit("itemAdded", this.item);
 			(this.$parent as any).showLoader = false;
