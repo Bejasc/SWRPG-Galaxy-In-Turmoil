@@ -155,7 +155,7 @@
 	</v-row>
 </template>
 
-<style>
+<style scoped>
 .itemThumbnail {
 	object-fit: contain;
 	max-width: 220px;

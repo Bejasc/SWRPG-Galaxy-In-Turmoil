@@ -18,7 +18,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .discord-embed .discord-embed-field {
 	min-width: 100%;
 	margin-top: 5px;

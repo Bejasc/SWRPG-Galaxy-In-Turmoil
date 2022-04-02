@@ -10,7 +10,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .discord-embed .discord-embed-fields {
 	display: flex;
 	flex-wrap: wrap;

@@ -54,7 +54,7 @@
 	</v-container> -->
 </template>
 
-<style>
+<style scoped>
 .v-alert {
 	position: fixed;
 	left: 50%;

@@ -8,7 +8,7 @@
 	</v-main>
 </template>
 
-<style>
+<style scoped>
 .v-application code {
 	background-color: unset;
 }
