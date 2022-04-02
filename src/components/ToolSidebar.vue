@@ -78,8 +78,7 @@ export default {
 				{
 					text: "Items",
 					click: function() {
-						alert("This item is tempoarily disabled");
-						//router.push({ path: "/data/items" });
+						router.push({ path: "/data/items" });
 					},
 				},
 				{

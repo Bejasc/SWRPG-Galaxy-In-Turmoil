@@ -50,7 +50,7 @@
 <script lang="ts">
 import Loader from "@/components/Loader.vue";
 import ItemFullView from "@/components/ItemFullView.vue";
-import { getFromMongo } from "@/plugins/MongoConnector";
+import { getData, getFromMongo } from "@/plugins/MongoConnector";
 import { IItem, Item } from "@/types/SwrpgTypes/Item";
 import Vue from "vue";
 export default Vue.extend({
@@ -76,7 +76,7 @@ export default Vue.extend({
 		async loadItemsFromMongo() {
 			this.showLoader = true;
 			this.items = [];
-			this.items = await getFromMongo<IItem>("items");
+			this.items = await getData<IItem>("items");
 			this.showLoader = false;
 		},
 		openFullView(item: IItem, allowEdit = false) {
