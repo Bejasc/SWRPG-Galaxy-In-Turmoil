@@ -1,5 +1,5 @@
 <template>
-	<v-row fill-height>
+	<v-row fill-height wrap>
 		<v-col cols="2" class="ma-0 pa-0">
 			<v-navigation-drawer absolute dark width="300" permanent>
 				<v-img src="@/assets/hoth.png"> </v-img>

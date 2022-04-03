@@ -16,12 +16,7 @@
 	</v-app>
 </template>
 
-<style lang="scss">
-.container {
-	max-width: 100vw;
-	padding: 0px;
-}
-</style>
+<style lang="scss" scoped></style>
 
 <script lang="ts">
 import Vue from "vue";
