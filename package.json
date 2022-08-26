@@ -29,7 +29,7 @@
 		"font-awesome": "^4.7.0",
 		"git-branch-is": "^4.0.0",
 		"material-design-icons": "^3.0.1",
-		"mongoose": "^6.1.8",
+		"mongoose": "^6.4.6",
 		"register-service-worker": "^1.7.1",
 		"v-emoji-picker": "^2.3.3",
 		"vue": "^2.6.11",
